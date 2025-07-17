@@ -2,6 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fondos personalizados */
+.bg-slide-4 {
+  background-image: url('/slide-4.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-slide-5 {
+  background-image: url('/slide-5.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Animaciones personalizadas */
+@keyframes slideshow-bg {
+  0%, 45% {
+    opacity: 1;
+  }
+  55%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideshow-bg-delayed {
+  0%, 45% {
+    opacity: 0;
+  }
+  55%, 100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideshow-bg {
+  animation: slideshow-bg 6s ease-in-out infinite;
+}
+
+.animate-slideshow-bg-delayed {
+  animation: slideshow-bg-delayed 6s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out 0.5s both;
+}
+
+.animate-fade-in-up-delay {
+  animation: fade-in-up 1s ease-out 1s both;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation: fade-in-up 1s ease-out 1.5s both;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
