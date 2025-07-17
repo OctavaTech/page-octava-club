@@ -17,7 +17,7 @@ export interface ApiEvent {
 
 export interface ProcessedEvent {
   id: string;
-  image: string;
+  image?: string;
   title: string;
   description: string;
   date: string;
