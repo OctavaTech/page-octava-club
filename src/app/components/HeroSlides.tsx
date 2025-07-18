@@ -28,16 +28,7 @@ const HeroSlides: React.FC = () => {
           sizes="100vw"
         />
       </div>
-      <div className="absolute inset-0 animate-slideshow-bg-delayed opacity-0">
-        <Image
-          src="/slide-6.jpg"
-          alt="slide 6"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-      </div>
+    
     </div>
   );
 };
