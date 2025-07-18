@@ -4,14 +4,14 @@
 
 /* Fondos personalizados */
 .bg-slide-4 {
-  background-image: url('/slide-4.jpg');
+  background-image: url('/Slide-4.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .bg-slide-5 {
-  background-image: url('/slide-5.jpg');
+  background-image: url('/Slide-5.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

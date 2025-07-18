@@ -121,6 +121,66 @@ export const mockApiResponse: ApiResponse<ApiEvent[]> = {
         "Nostalgia Sound",
         "Time Machine"
       ]
+    },
+    {
+      "_id": "Pl4gr84v20xqu01js0ybj42s6vYtIz7Z",
+      "date": 1739318400, // 12 de febrero 2025
+      "end": 1739336400,
+      "flyer": "https://octavaclub.com/wp-content/uploads/2025/03/pop-night-event.jpg",
+      "name": "Pop Night Fever",
+      "slug": "pop-night-fever-12-02-2025",
+      "start": 1739318400,
+      "url": "https://www.octavaclub.com/events/pop-night-fever-12-02-2025",
+      "description": "Los mejores hits del pop internacional y nacional en una noche épica",
+      "age": 18,
+      "music_genres": "pop",
+      "outfit": "casual",
+      "location_town": "Bogotá",
+      "artists": [
+        "Dua Lipa",
+        "Ed Sheeran",
+        "Shakira"
+      ]
+    },
+    {
+      "_id": "Pl4gr84v20xqu01js0ybj42s6vYtIz8A",
+      "date": 1739923200, // 19 de febrero 2025
+      "end": 1739941200,
+      "flyer": "https://octavaclub.com/wp-content/uploads/2025/03/rock-legends-night.jpg",
+      "name": "Rock Legends Night",
+      "slug": "rock-legends-night-19-02-2025",
+      "start": 1739923200,
+      "url": "https://www.octavaclub.com/events/rock-legends-night-19-02-2025",
+      "description": "Una noche dedicada a las leyendas del rock con covers y tributos épicos",
+      "age": 21,
+      "music_genres": "rock",
+      "outfit": "casual",
+      "location_town": "Bogotá",
+      "artists": [
+        "Queen Tribute",
+        "AC/DC Experience",
+        "Led Zeppelin Revival"
+      ]
+    },
+    {
+      "_id": "Pl4gr84v20xqu01js0ybj42s6vYtIz9B",
+      "date": 1740528000, // 26 de febrero 2025
+      "end": 1740546000,
+      "flyer": "https://octavaclub.com/wp-content/uploads/2025/03/jazz-lounge-night.jpg",
+      "name": "Jazz Lounge Experience",
+      "slug": "jazz-lounge-experience-26-02-2025",
+      "start": 1740528000,
+      "url": "https://www.octavaclub.com/events/jazz-lounge-experience-26-02-2025",
+      "description": "Una velada sofisticada con los mejores exponentes del jazz contemporáneo",
+      "age": 25,
+      "music_genres": "jazz",
+      "outfit": "elegante",
+      "location_town": "Bogotá",
+      "artists": [
+        "Miles Davis Tribute",
+        "Modern Jazz Quartet",
+        "Latin Jazz Ensemble"
+      ]
     }
   ]
 };

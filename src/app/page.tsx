@@ -1,9 +1,11 @@
 'use client';
-import Image from "next/image";
 import React from "react";
 import Navbar from "./components/Navbar";
 import EventGrid from "./components/EventGrid";
+import EventTabs from "./components/EventTabs";
+import HeroSlides from "./components/HeroSlides";
 import { useEvents } from "./hooks/useEvents";
+import { useEventFilters } from "./hooks/useEventFilters";
 
 export default function Home() {
   // Configuración de la API FourVenues
@@ -14,6 +16,7 @@ export default function Home() {
   };
   
   const { events, loading, error } = useEvents(apiConfig);
+  const { activeTab, filteredEvents, handleTabChange } = useEventFilters(events);
 
   return (
     <div className="min-h-screen bg-zinc-900">
@@ -22,10 +25,7 @@ export default function Home() {
       {/* Sección 1: Hero - slide-4 y slide-5 dinámicos */}
       <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Fondo animado con slide-4 y slide-5 */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-slide-4 animate-slideshow-bg opacity-100"></div>
-          <div className="absolute inset-0 bg-slide-5 animate-slideshow-bg-delayed opacity-0"></div>
-        </div>
+        <HeroSlides />
         <div className="absolute inset-0 bg-black/40 z-5"></div>
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-lg animate-fade-in-up">
@@ -54,9 +54,17 @@ export default function Home() {
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
           Eventos Nocturnos Destacados
           </h2>
-          <p className="text-md text-zinc-300 mb-16">
+          <p className="text-md text-zinc-300 mb-8">
           Puertas abiertas desde las 9:00 P.M.
           </p>
+          
+          {/* Tabs de filtrado */}
+          {!loading && events.length > 0 && (
+            <EventTabs 
+              activeTab={activeTab} 
+              onTabChange={handleTabChange} 
+            />
+          )}
           
           {/* Estado de carga */}
           {loading && (
@@ -75,11 +83,18 @@ export default function Home() {
           )}
           
           {/* Grid de eventos */}
-          {!loading && events.length > 0 && (
-            <EventGrid events={events} />
+          {!loading && filteredEvents.length > 0 && (
+            <EventGrid events={filteredEvents} />
           )}
           
           {/* Estado vacío */}
+          {!loading && events.length > 0 && filteredEvents.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-zinc-400 text-lg">No hay eventos disponibles para esta categoría</p>
+            </div>
+          )}
+          
+          {/* Estado vacío general */}
           {!loading && events.length === 0 && !error && (
             <div className="text-center py-20">
               <p className="text-zinc-400 text-lg">No hay eventos disponibles en este momento</p>
