@@ -54,18 +54,15 @@ const Card: React.FC<CardProps> = ({
         {/* Contenido a la derecha */}
         <div className="flex flex-col flex-1 p-6">
           <h3 className="text-xl font-bold mb-3 tracking-wide">{title}</h3>
-          <p className="text-base text-zinc-300 mb-4 line-clamp-3">{description}</p>
+          <p className="text-sm text-zinc-300 mb-4 line-clamp-3">{description}</p>
           
           {/* Información adicional del evento */}
           <div className="flex flex-col gap-2 text-sm text-zinc-400 mb-4">
-            <span className="flex items-center gap-2"><CiCalendar /> {date}</span>
-            <span className="flex items-center gap-2"><LiaMapMarkerAltSolid /> {address}</span>
-            {age && <span className="flex items-center gap-2"><FaUser /> +{age} años</span>}
-            {musicGenres && <span className="flex items-center gap-2"><FaMusic /> {musicGenres}</span>}
-            {outfit && <span className="flex items-center gap-2">👔 {outfit}</span>}
+            <span className="flex items-center gap-2"><img src="/icons/icon-location.svg" alt="location" className="w-4 h-4" /> {address}</span>
+            <span className="flex items-center gap-2"><img src="/icons/icon-calendar.svg" alt="calendar" className="w-4 h-4" /> {date}</span>
           </div>
 
-          {/* Artistas */}
+          {/* Artistas
           {artists && artists.length > 0 && (
             <div className="mb-4">
               <h4 className="text-sm font-semibold text-zinc-300 mb-2">Artistas:</h4>
@@ -83,6 +80,7 @@ const Card: React.FC<CardProps> = ({
               </div>
             </div>
           )}
+          */}
 
           <div className="mt-auto flex gap-3">
             {buttons.map((btn, idx) => (
@@ -103,31 +101,28 @@ const Card: React.FC<CardProps> = ({
   // Layout vertical para cards simples con gradiente
   return (
     <div className="bg-zinc-900/95 rounded-2xl shadow-lg text-white overflow-hidden flex flex-col min-h-[380px] transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
-      {/* Imagen abajo */}
+      {/* Imagen arriba */}
       {image && (
-        <div className="w-full h-[160px] overflow-hidden relative -mt-6">
+        <div className="w-full h-[160px] overflow-hidden relative -mb-6">
           <img src={image} alt={title} className="w-full h-full object-cover rounded-b-2xl" />
         </div>
       )}
       
       {/* Gradiente separador */}
-      <div className="h-6 bg-gradient-to-b from-zinc-900/95 to-transparent relative z-10"></div>
+      <div className="h-8 bg-gradient-to-t from-zinc-900/95 to-transparent relative z-10"></div>
       
-      {/* Contenido arriba */}
+      {/* Contenido abjo */}
       <div className="flex flex-col flex-1 p-6 pb-0">
         <h3 className="text-lg font-bold mb-2 tracking-wide">{title}</h3>
-        <p className="text-base text-zinc-300 mb-4 line-clamp-2">{description}</p>
+        <p className="text-sm text-zinc-300 mb-4 line-clamp-2">{description}</p>
         
         {/* Información adicional del evento */}
         <div className="flex flex-col gap-1 text-sm text-zinc-400 mb-4">
-          <span className="flex items-center gap-2"><CiCalendar /> {date}</span>
-          <span className="flex items-center gap-2"><LiaMapMarkerAltSolid /> {address}</span>
-          {age && <span className="flex items-center gap-2"><FaUser /> +{age} años</span>}
-          {musicGenres && <span className="flex items-center gap-2"><FaMusic /> {musicGenres}</span>}
-          {outfit && <span className="flex items-center gap-2">👔 {outfit}</span>}
+          <span className="flex items-center gap-2"><img src="/icons/icon-location.svg" alt="location" className="w-4 h-4" /> {address}</span>
+          <span className="flex items-center gap-2"><img src="/icons/icon-calendar.svg" alt="calendar" className="w-4 h-4" /> {date}</span>
         </div>
 
-        {/* Artistas */}
+        {/* Artistas 
         {artists && artists.length > 0 && (
           <div className="mb-4">
             <h4 className="text-sm font-semibold text-zinc-300 mb-1">Artistas:</h4>
@@ -145,7 +140,7 @@ const Card: React.FC<CardProps> = ({
             </div>
           </div>
         )}
-
+       */}
         <div className="flex gap-3 mb-4">
           {buttons.map((btn, idx) => (
             <button 
