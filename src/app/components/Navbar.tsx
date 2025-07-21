@@ -73,7 +73,7 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Menú móvil */}
-      <div className={`md:hidden fixed top-0 left-0 w-full h-screen bg-zinc-900/98 backdrop-blur transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`md:hidden fixed top-0 left-0 w-full h-screen bg-black backdrop-blur transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex flex-col items-center justify-center h-full space-y-8">
           <a href="#inicio" onClick={closeMenu} className="text-white text-2xl font-semibold hover:text-blue-400 transition">
             INICIO
