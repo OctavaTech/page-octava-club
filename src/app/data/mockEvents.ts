@@ -126,7 +126,7 @@ export const mockApiResponse: ApiResponse<ApiEvent[]> = {
       "_id": "Pl4gr84v20xqu01js0ybj42s6vYtIz7Z",
       "date": 1739318400, // 12 de febrero 2025
       "end": 1739336400,
-      "flyer": "https://octavaclub.com/wp-content/uploads/2025/03/pop-night-event.jpg",
+      "flyer": "https://octavaclub.com/wp-content/uploads/2025/03/Sebastien-Leger-12-Abril-Post.jpg",
       "name": "Pop Night Fever",
       "slug": "pop-night-fever-12-02-2025",
       "start": 1739318400,
@@ -146,7 +146,7 @@ export const mockApiResponse: ApiResponse<ApiEvent[]> = {
       "_id": "Pl4gr84v20xqu01js0ybj42s6vYtIz8A",
       "date": 1739923200, // 19 de febrero 2025
       "end": 1739941200,
-      "flyer": "https://octavaclub.com/wp-content/uploads/2025/03/rock-legends-night.jpg",
+      "flyer": "https://octavaclub.com/wp-content/uploads/2025/03/Technasia-05Abril-Post.jpg",
       "name": "Rock Legends Night",
       "slug": "rock-legends-night-19-02-2025",
       "start": 1739923200,
@@ -166,7 +166,7 @@ export const mockApiResponse: ApiResponse<ApiEvent[]> = {
       "_id": "Pl4gr84v20xqu01js0ybj42s6vYtIz9B",
       "date": 1740528000, // 26 de febrero 2025
       "end": 1740546000,
-      "flyer": "https://octavaclub.com/wp-content/uploads/2025/03/jazz-lounge-night.jpg",
+      "flyer": "https://octavaclub.com/wp-content/uploads/2025/03/Sebastien-Leger-12-Abril-Post.jpg",
       "name": "Jazz Lounge Experience",
       "slug": "jazz-lounge-experience-26-02-2025",
       "start": 1740528000,

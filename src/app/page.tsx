@@ -109,16 +109,35 @@ export default function Home() {
           <img src="/bg-3.jpg" alt="Gallery Background" className="w-full h-full object-cover brightness-30" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4">
-            GALERÍA
-          </h2>
-          <p className="text-xl text-zinc-300 text-center mb-16 max-w-2xl mx-auto">
-            Revive los mejores momentos de nuestros eventos
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-6">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">Galería del Club</h2>
+              <p className="text-lg text-zinc-300 mb-1">Vive los mejores momentos capturados en nuestro club.</p>
+              <span className="text-zinc-400 text-sm">Etiqueta a <span className="text-blue-400 font-semibold">@octavaclub</span> para aparecer destacado</span>
+            </div>
+            <div className="flex items-center gap-3 self-start md:self-center">
+              <button className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-white text-xl hover:bg-zinc-700 transition"><span>&lt;</span></button>
+              <button className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-white text-xl hover:bg-zinc-700 transition"><span>&gt;</span></button>
+              <a href="https://www.instagram.com/octavaclub/" target="_blank" rel="noopener noreferrer" className="ml-2 px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold shadow hover:from-blue-600 hover:to-indigo-600 transition text-sm">SÍGUENOS EN INSTAGRAM</a>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
+            {[
+              '1.png',
+              '2.png',
+              '3.png',
+              '4.png',
+              '5.png',
+              '6.png',
+              '7.png',
+              '8.png',
+              '9.png',
+              '10.png',
+              '11.png',
+              '12.png',
+            ].map((img, i) => (
               <div key={i} className="aspect-square bg-zinc-800 rounded-2xl overflow-hidden hover:scale-105 transition-transform duration-300">
-                <img src={`/gallery-${i}.jpg`} alt={`Gallery ${i}`} className="w-full h-full object-cover" />
+                <img src={`/gallery/${img}`} alt={`Galería ${i+1}`} className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
@@ -126,31 +145,37 @@ export default function Home() {
       </section>
 
       {/* Sección 4: Reconocimientos - bg-4 */}
-      <section id="reconocimientos" className="relative min-h-screen py-20">
+      <section id="reconocimientos" className="relative min-h-[420px] py-20 flex items-center">
         <div className="absolute inset-0 z-0">
           <img src="/bg-4.jpg" alt="Recognition Background" className="w-full h-full object-cover brightness-30" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4">
-            RECONOCIMIENTOS
-          </h2>
-          <p className="text-xl text-zinc-300 text-center mb-16 max-w-2xl mx-auto">
-            Premiados por brindar las mejores experiencias nocturnas
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: "Mejor Club 2024", desc: "Reconocido por la excelencia en entretenimiento nocturno" },
-              { title: "DJ Awards", desc: "Mejor programación musical de la región" },
-              { title: "Experiencia VIP", desc: "Servicio premium reconocido por clientes" }
-            ].map((award, i) => (
-              <div key={i} className="bg-zinc-900/80 backdrop-blur rounded-2xl p-8 text-center hover:bg-zinc-900/90 transition">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-2xl">🏆</span>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">{award.title}</h3>
-                <p className="text-zinc-300">{award.desc}</p>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 w-full">
+          <div className="bg-zinc-900/80 backdrop-blur rounded-2xl p-8 md:p-12 w-full">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-3xl md:text-4xl"><img src="/icons/icon-trophy.svg" alt="Logo" className="w-10 h-10" /></span>
+              <h2 className="text-2xl md:text-3xl font-bold text-white">Reconocimientos que nos hacen únicos</h2>
+            </div>
+            <h3 className="text-md md:text-lg text-white font-medium mb-1">Hemos representado a Colombia entre los mejores clubes del mundo</h3>
+            <p className="text-zinc-200 mb-6">En los últimos <span className="font-bold">6 años</span> hemos estado en el prestigio ranking de la reconocida revista <span className="font-bold">DJ MAG</span>, que destaca a los mejores clubes de música electrónica a nivel mundial.</p>
+            {/* Slider de logos */}
+            <div>
+              {/* Grid en móvil, slider horizontal en md+ */}
+              <div className="grid grid-cols-3 gap-4 md:flex md:gap-8 md:min-w-[900px] lg:min-w-[1100px] md:overflow-x-auto md:scrollbar-hide items-center justify-center">
+                {[
+                  {img: '2024.png', alt: '#99 2024'},
+                  {img: '2023.png', alt: '#98 2023'},
+                  {img: '2022.png', alt: '#91 2022'},
+                  {img: '2022-1.png', alt: '#93 2022'},
+                  {img: '2021.png', alt: '#97 2021'},
+                  {img: '2020.png', alt: '#99 2020'},
+                  {img: '2019.png', alt: '#96 2019'},
+                ].map((logo, i) => (
+                  <div key={i} className="flex flex-col items-center">
+                    <img src={`/slider2/${logo.img}`} alt={logo.alt} className="w-24 h-16 md:w-28 md:h-20 object-contain mb-2" />
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>

@@ -24,10 +24,6 @@ const Card: React.FC<CardProps> = ({
   date, 
   address, 
   buttons,
-  artists,
-  age,
-  musicGenres,
-  outfit,
   isDouble = false
 }) => {
   const handleButtonClick = (button: { label: string; onClick?: () => void; href?: string }) => {
