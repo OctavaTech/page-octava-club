@@ -181,43 +181,19 @@ export default function Home() {
       </section>
 
       {/* Sección 5: Eventos Corporativos - bg-5 */}
-      <section id="eventos-corporativos" className="relative min-h-screen py-20">
+      <section id="eventos-corporativos" className="relative min-h-[420px] py-20 flex items-center">
         <div className="absolute inset-0 z-0">
           <img src="/bg-5.jpg" alt="Corporate Background" className="w-full h-full object-cover brightness-30" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              EVENTOS CORPORATIVOS
-            </h2>
-            <p className="text-xl text-zinc-300 mb-12 max-w-2xl mx-auto">
-              Organiza tu evento corporativo con nosotros. Espacios exclusivos, catering premium y entretenimiento de primera clase.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              <div className="bg-zinc-900/80 backdrop-blur rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-white mb-4">Servicios Incluidos</h3>
-                <ul className="text-zinc-300 space-y-2">
-                  <li>• Espacios privados exclusivos</li>
-                  <li>• Catering personalizado</li>
-                  <li>• Sistema de sonido profesional</li>
-                  <li>• Iluminación especializada</li>
-                  <li>• Servicio de bar premium</li>
-                </ul>
-              </div>
-              <div className="bg-zinc-900/80 backdrop-blur rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-white mb-4">Capacidades</h3>
-                <ul className="text-zinc-300 space-y-2">
-                  <li>• Hasta 500 personas</li>
-                  <li>• Múltiples espacios disponibles</li>
-                  <li>• Parqueadero privado</li>
-                  <li>• Seguridad 24/7</li>
-                  <li>• Coordinación completa</li>
-                </ul>
-              </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 w-full">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Eventos Corporativos</h2>
+          <p className="text-zinc-300 mb-8 text-base md:text-lg">¿Planeas un evento empresarial o necesitas un espacio exclusivo? Conoce nuestras experiencias personalizadas para empresas.</p>
+          <div className="rounded-2xl overflow-hidden shadow-2xl bg-zinc-900/70 relative max-w-5xl mx-auto">
+            <img src="/bg-5.jpg" alt="Evento corporativo" className="w-full h-[320px] md:h-[400px] object-cover object-center brightness-75" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 drop-shadow-lg">Ofrecemos un entorno ideal para tus<br/>eventos corporativos.</h3>
+              <a href="#contacto" className="inline-block px-7 py-3 rounded-full border border-white text-white font-semibold bg-zinc-900/80 hover:bg-white hover:text-zinc-900 transition shadow-lg">IR A EVENTOS CORPORATIVOS</a>
             </div>
-            <button className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-full px-10 py-4 font-bold text-lg hover:from-blue-600 hover:to-indigo-600 transition">
-              SOLICITAR COTIZACIÓN
-            </button>
           </div>
         </div>
       </section>
