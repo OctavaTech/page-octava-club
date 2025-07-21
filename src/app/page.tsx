@@ -189,7 +189,7 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Eventos Corporativos</h2>
           <p className="text-zinc-300 mb-8 text-base md:text-lg">¿Planeas un evento empresarial o necesitas un espacio exclusivo? Conoce nuestras experiencias personalizadas para empresas.</p>
           <div className="rounded-2xl overflow-hidden shadow-2xl bg-zinc-900/70 relative max-w-5xl mx-auto">
-            <img src="/bg-5.jpg" alt="Evento corporativo" className="w-full h-[320px] md:h-[400px] object-cover object-center brightness-75" />
+            <img src="/slide-7.jpg" alt="Evento corporativo" className="w-full h-[320px] md:h-[400px] object-cover object-center brightness-75" />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 drop-shadow-lg">Ofrecemos un entorno ideal para tus<br/>eventos corporativos.</h3>
               <a href="#contacto" className="inline-block px-7 py-3 rounded-full border border-white text-white font-semibold bg-zinc-900/80 hover:bg-white hover:text-zinc-900 transition shadow-lg">IR A EVENTOS CORPORATIVOS</a>
@@ -198,7 +198,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Sección 6: Contacto - bg-6 */}
+      {/* Sección 6: Contacto - bg-6 
       <section id="contacto" className="relative min-h-screen py-20">
         <div className="absolute inset-0 z-0">
           <img src="/bg-6.jpg" alt="Contact Background" className="w-full h-full object-cover brightness-30" />
@@ -267,6 +267,30 @@ export default function Home() {
           </div>
         </div>
       </section>
+      */}
+      
+      {/* Footer personalizado */}
+      <footer className="bg-gradient-to-b from-black via-[#0a0a2a] to-[#0a0a2a] pt-12 pb-6 px-4 mt-12">
+        <div className="max-w-5xl mx-auto flex flex-col items-center">
+          <img src="/Logo-footer.svg" alt="Logo Octava" className="w-24 h-24 mb-4" />
+          <hr className="w-full border-t border-zinc-400/30 my-6" />
+          <div className="flex gap-6 mb-6">
+            <a href="#" aria-label="Instagram" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Spotify" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-spotify"></i></a>
+            <a href="#" aria-label="TikTok" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-tiktok"></i></a>
+          </div>
+          <div className="text-center text-white/80 mb-2 font-semibold tracking-wide">CONTACTO</div>
+          <div className="flex flex-col md:flex-row gap-2 md:gap-8 text-center text-zinc-200 text-sm mb-4">
+            <span>Ubicación:Cra. 8 #63-41. Bogotá, Colombia</span>
+            <span>Teléfono:+57 315 6607465</span>
+            <span>Correo:info@octavaclub.com</span>
+          </div>
+          <div className="text-xs text-zinc-400 mt-2">
+            ©2025 OCTAVA • <a href="#" className="underline hover:text-white transition">WEBSITE TERMS OF USE</a> • <a href="#" className="underline hover:text-white transition">PRIVACY POLICY</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
