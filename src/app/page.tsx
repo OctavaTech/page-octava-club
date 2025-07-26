@@ -7,31 +7,60 @@ import EventsDisplay from "./components/EventsDisplay";
 import CorporateContactForm from "./components/CorporateContactForm";
 
 export default function Home() {
-  const { events, loading, error, refetch, clearError } = useEvents();
+  const { events, loading, error, refetch, forceRefetch, clearError } = useEvents();
 
   return (
     <div className="min-h-screen bg-zinc-900">
       <Navbar />
       
-      {/* Sección 1: Hero - slide-4 y slide-5 dinámicos */}
+      {/* Sección 1: Hero - Historia épica de resurrección */}
       <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Fondo animado con slide-4 y slide-5 */}
         <HeroSlides />
-        <div className="absolute inset-0 bg-black/40 z-5"></div>
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-lg animate-fade-in-up">
-            Vive la noche como nunca antes
-          </h1>
-          <p className="text-xl md:text-2xl text-zinc-200 mb-10 drop-shadow animate-fade-in-up-delay">
-            Sumérgete en una experiencia única bajo las luces de nuestra pista
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up-delay-2">
-            <button className="border-2 border-white text-white rounded-full px-8 py-3 font-semibold text-md hover:bg-white hover:text-zinc-900 transition-all duration-300 hover:scale-105">
-              VER VIDEO
+        <div className="absolute inset-0 bg-black/60 z-5"></div>
+        <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
+          {/* Título principal con efecto dramático */}
+          <div className="mb-8">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-4 drop-shadow-2xl animate-fade-in-up">
+              <span className="text-white">DEL FUEGO</span>
+            </h1>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-4 drop-shadow-2xl animate-fade-in-up-delay">
+              <span className="text-white">A LA GLORIA</span>
+            </h1>
+          </div>
+
+          {/* Historia épica */}
+          <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-8 animate-fade-in-up-delay-2">
+            <p className="text-lg md:text-xl text-zinc-200 mb-4 leading-relaxed text-justify">
+              <span className="text-white font-semibold">2019:</span> Las llamas devoraron nuestros sueños. 
+              Octava Club se convirtió en cenizas, pero no nuestro espíritu.
+            </p>
+            <p className="text-lg md:text-xl text-zinc-200 mb-4 leading-relaxed text-justify">
+              <span className="text-white font-semibold">2020-2021:</span> De las ruinas surgió la determinación. 
+              Reconstruimos no solo un club, sino una leyenda.
+            </p>
+            <p className="text-lg md:text-xl text-zinc-200 leading-relaxed text-justify">
+              <span className="text-white font-semibold">2022-2025:</span> Hoy somos más fuertes que nunca. 
+              <span className="text-white font-bold"> Top 100 mundial en DJ Mag</span> por 6 años consecutivos.
+            </p>
+          </div>
+
+          {/* Llamada a la acción */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up-delay-3">
+            <button className="bg-gradient-to-r from-white to-gray-200 text-black rounded-full px-8 py-4 font-bold text-lg hover:from-gray-200 hover:to-white transition-all duration-300 hover:scale-105 shadow-2xl">
+              CONOCE NUESTRA HISTORIA
             </button>
-            <button className="border-2 border-white text-white rounded-full px-8 py-3 font-semibold text-md hover:bg-white hover:text-zinc-900 transition-all duration-300 hover:scale-105">
-              PRÓXIMOS EVENTOS
+            <button className="border-2 border-white text-white rounded-full px-8 py-4 font-bold text-lg hover:bg-white hover:text-black transition-all duration-300 hover:scale-105 shadow-2xl">
+              VIVE LA EXPERIENCIA
             </button>
+          </div>
+
+          {/* Badge de reconocimiento */}
+          <div className="mt-8 animate-fade-in-up-delay-4">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-gold-400 to-yellow-500 text-black px-4 py-2 rounded-full font-bold text-sm">
+              <span>🏆</span>
+              <span>TOP 100 MUNDIAL DJ MAG 2024</span>
+            </div>
           </div>
         </div>
       </section>
@@ -51,7 +80,7 @@ export default function Home() {
               <p className="text-red-400 mb-4">Error al cargar eventos: {error}</p>
               <div className="flex gap-4 justify-center mt-4">
                 <button 
-                  onClick={refetch}
+                  onClick={forceRefetch}
                   className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
                 >
                   Reintentar

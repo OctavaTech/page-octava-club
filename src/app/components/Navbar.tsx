@@ -1,9 +1,40 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaInstagram, FaFacebookF, FaSpotify, FaTiktok, FaWhatsapp, FaBars, FaTimes } from "react-icons/fa";
+
+// Hook para detectar la sección activa
+const useActiveSection = () => {
+  const [activeSection, setActiveSection] = useState('inicio');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['inicio', 'eventos', 'galeria', 'reconocimientos', 'eventos-corporativos', 'contacto'];
+      const scrollPosition = window.scrollY + 100; // Offset para el navbar
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Verificar posición inicial
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return activeSection;
+};
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const activeSection = useActiveSection();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -11,6 +42,19 @@ const Navbar: React.FC = () => {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  // Función para obtener las clases del enlace según si está activo
+  const getLinkClasses = (sectionId: string, isMobile: boolean = false) => {
+    const baseClasses = isMobile 
+      ? "text-white text-2xl font-semibold transition" 
+      : "text-zinc-200 hover:text-white transition";
+    
+    const activeClasses = isMobile
+      ? "text-blue-400 border-b-2 border-blue-400 pb-1"
+      : "text-white border-b-2 border-white pb-1";
+    
+    return `${baseClasses} ${activeSection === sectionId ? activeClasses : ''}`;
   };
 
   return (
@@ -24,25 +68,25 @@ const Navbar: React.FC = () => {
         {/* Menú Desktop */}
         <ul className="hidden md:flex gap-8 items-center text-sm font-medium">
           <li>
-            <a href="#inicio" className="text-zinc-200 hover:text-white transition">INICIO</a>
+            <a href="#inicio" className={getLinkClasses('inicio')}>INICIO</a>
           </li>
           <li>
-            <a href="#eventos" className="text-zinc-200 hover:text-white transition">EVENTOS NOCTURNOS</a>
+            <a href="#eventos" className={getLinkClasses('eventos')}>EVENTOS NOCTURNOS</a>
           </li>
           <li>
-            <a href="#galeria" className="text-zinc-200 hover:text-white transition">GALERIA</a>
+            <a href="#galeria" className={getLinkClasses('galeria')}>GALERIA</a>
           </li>
           <li>
-            <a href="#reconocimientos" className="text-zinc-200 hover:text-white transition">RECONOCIMIENTOS</a>
+            <a href="#reconocimientos" className={getLinkClasses('reconocimientos')}>RECONOCIMIENTOS</a>
           </li>
           <li>
-            <a href="#eventos-corporativos" className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-full shadow font-semibold ml-2 hover:from-blue-600 hover:to-indigo-600 transition flex items-center gap-2">
+            <a href="#eventos-corporativos" className={`bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-full shadow font-semibold ml-2 hover:from-blue-600 hover:to-indigo-600 transition flex items-center gap-2 ${activeSection === 'eventos-corporativos' ? 'ring-2 ring-white ring-opacity-50' : ''}`}>
               EVENTOS CORPORATIVOS
               <span className="ml-1">↗</span>
             </a>
           </li>
           <li>
-            <a href="#contacto" className="text-zinc-200 hover:text-white transition">CONTACTO</a>
+            <a href="#contacto" className={getLinkClasses('contacto')}>CONTACTO</a>
           </li>
         </ul>
 
@@ -75,22 +119,22 @@ const Navbar: React.FC = () => {
       {/* Menú móvil */}
       <div className={`md:hidden fixed top-0 left-0 w-full h-screen bg-zinc-900/95 backdrop-blur transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex flex-col items-center justify-center h-full space-y-8">
-          <a href="#inicio" onClick={closeMenu} className="text-white text-2xl font-semibold hover:text-blue-400 transition">
+          <a href="#inicio" onClick={closeMenu} className={getLinkClasses('inicio', true)}>
             INICIO
           </a>
-          <a href="#eventos" onClick={closeMenu} className="text-white text-2xl font-semibold hover:text-blue-400 transition">
+          <a href="#eventos" onClick={closeMenu} className={getLinkClasses('eventos', true)}>
             EVENTOS NOCTURNOS
           </a>
-          <a href="#galeria" onClick={closeMenu} className="text-white text-2xl font-semibold hover:text-blue-400 transition">
+          <a href="#galeria" onClick={closeMenu} className={getLinkClasses('galeria', true)}>
             GALERIA
           </a>
-          <a href="#reconocimientos" onClick={closeMenu} className="text-white text-2xl font-semibold hover:text-blue-400 transition">
+          <a href="#reconocimientos" onClick={closeMenu} className={getLinkClasses('reconocimientos', true)}>
             RECONOCIMIENTOS
           </a>
-          <a href="#eventos-corporativos" onClick={closeMenu} className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-6 py-3 rounded-full shadow font-semibold hover:from-blue-600 hover:to-indigo-600 transition">
+          <a href="#eventos-corporativos" onClick={closeMenu} className={`bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-6 py-3 rounded-full shadow font-semibold hover:from-blue-600 hover:to-indigo-600 transition ${activeSection === 'eventos-corporativos' ? 'ring-2 ring-white ring-opacity-50' : ''}`}>
             EVENTOS CORPORATIVOS
           </a>
-          <a href="#contacto" onClick={closeMenu} className="text-white text-2xl font-semibold hover:text-blue-400 transition">
+          <a href="#contacto" onClick={closeMenu} className={getLinkClasses('contacto', true)}>
             CONTACTO
           </a>
           

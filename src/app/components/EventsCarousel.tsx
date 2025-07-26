@@ -12,7 +12,26 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [visibleEvents, setVisibleEvents] = useState<ProcessedEvent[]>([]);
-  const eventsPerView = 3; // Mostrar 3 eventos a la vez
+  const [eventsPerView, setEventsPerView] = useState(3);
+
+  // Detectar el número de eventos por vista basado en el tamaño de pantalla
+  useEffect(() => {
+    const updateEventsPerView = () => {
+      if (window.innerWidth < 768) {
+        setEventsPerView(1); // Móvil: 1 evento
+      } else if (window.innerWidth < 1024) {
+        setEventsPerView(2); // Tablet: 2 eventos
+      } else {
+        setEventsPerView(3); // Desktop: 3 eventos
+      }
+    };
+
+    updateEventsPerView();
+    window.addEventListener('resize', updateEventsPerView);
+    return () => window.removeEventListener('resize', updateEventsPerView);
+  }, []);
+
+
 
   // Calcular eventos visibles basados en el índice actual
   useEffect(() => {
@@ -21,7 +40,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
       const endIndex = Math.min(startIndex + eventsPerView, events.length);
       setVisibleEvents(events.slice(startIndex, endIndex));
     }
-  }, [currentIndex, events]);
+  }, [currentIndex, events, eventsPerView]);
 
   // Auto-play
   useEffect(() => {
@@ -32,7 +51,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
     }, 5000); // Cambiar cada 5 segundos
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, events.length]);
+  }, [isAutoPlaying, events.length, eventsPerView]);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => 
@@ -81,7 +100,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
             className="flex items-center gap-2 text-white hover:text-blue-400 transition-colors"
           >
             {isAutoPlaying ? <FaPause size={16} /> : <FaPlay size={16} />}
-            <span className="text-sm">{isAutoPlaying ? 'Pausar' : 'Reproducir'}</span>
+            <span className="text-sm hidden sm:inline">{isAutoPlaying ? 'Pausar' : 'Reproducir'}</span>
           </button>
           
           <div className="flex items-center gap-2">
@@ -92,7 +111,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
               <FaChevronLeft className="text-white" size={16} />
             </button>
             
-            <span className="text-white text-sm">
+            <span className="text-white text-sm hidden sm:inline">
               {currentIndex + 1} - {Math.min(currentIndex + eventsPerView, events.length)} de {events.length}
             </span>
             
@@ -108,20 +127,27 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
 
       {/* Carrusel principal */}
       <div className="relative overflow-hidden rounded-2xl">
-        <div className="flex transition-transform duration-500 ease-in-out">
+        <div className="flex transition-transform duration-700 ease-out">
           {visibleEvents.map((event, index) => (
             <div
               key={event.id}
-              className="flex-shrink-0 w-1/3 px-4"
+              className={`flex-shrink-0 px-4 ${
+                eventsPerView === 1 ? 'w-full' : 
+                eventsPerView === 2 ? 'w-1/2' : 'w-1/3'
+              }`}
             >
-              <div className="bg-zinc-900/95 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="bg-zinc-900/95 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full max-w-sm mx-auto">
                 {/* Imagen del evento */}
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="relative h-48 sm:h-56 overflow-hidden">
+                  {event.image && (
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                    />
+                  )}
+                  
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   
                   {/* Badge de edad */}
@@ -131,26 +157,26 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
                 </div>
 
                 {/* Contenido */}
-                <div className="p-6">
-                  <h4 className="text-lg font-bold text-white mb-2 line-clamp-2">
+                <div className="p-4 sm:p-6">
+                  <h4 className="text-base sm:text-lg font-bold text-white mb-2 line-clamp-2 min-h-[3rem]">
                     {event.title}
                   </h4>
                   
-                  <p className="text-sm text-zinc-300 mb-3 line-clamp-2">
+                  <p className="text-xs sm:text-sm text-zinc-300 mb-3 line-clamp-2 min-h-[2.5rem]">
                     {event.description}
                   </p>
 
                   {/* Fecha y ubicación */}
-                  <div className="flex items-center gap-2 text-sm text-zinc-400 mb-3">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400 mb-3">
                     <span className="flex items-center gap-1">
-                      <img src="/icons/icon-calendar.svg" alt="calendar" className="w-4 h-4" />
+                      <img src="/icons/icon-calendar.svg" alt="calendar" className="w-3 h-3 sm:w-4 sm:h-4" />
                       {event.date}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2 text-sm text-zinc-400 mb-4">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400 mb-4">
                     <span className="flex items-center gap-1">
-                      <img src="/icons/icon-location.svg" alt="location" className="w-4 h-4" />
+                      <img src="/icons/icon-location.svg" alt="location" className="w-3 h-3 sm:w-4 sm:h-4" />
                       {event.address}
                     </span>
                   </div>
@@ -183,7 +209,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
                             window.open(button.href, '_blank', 'noopener,noreferrer');
                           }
                         }}
-                        className="flex-1 bg-white text-zinc-900 py-2 px-4 rounded-lg text-sm font-semibold hover:bg-zinc-200 transition-colors"
+                        className="flex-1 bg-white text-zinc-900 py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-semibold hover:bg-zinc-200 transition-colors"
                       >
                         {button.label}
                       </button>
