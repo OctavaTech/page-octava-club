@@ -22,10 +22,6 @@ class FourVenuesApiService {
 
       const data = await response.json();
       
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      
       return data;
     } catch (error) {
       console.error('Error authenticating:', error);
@@ -97,10 +93,6 @@ class FourVenuesApiService {
       }
 
       const data: ApiResponse<ApiEvent[]> = await response.json();
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
 
       if (!data.success) {
         throw new Error('API returned success: false');
