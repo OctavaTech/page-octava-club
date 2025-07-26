@@ -1,18 +1,42 @@
 export interface ApiEvent {
   _id: string;
-  date: number; // timestamp
-  end: number; // timestamp
-  flyer: string; // URL de la imagen
   name: string;
   slug: string;
-  start: number; // timestamp
-  url: string;
   description: string;
+  display_date: string;
+  start_date: string;
+  end_date: string;
+  code: string;
   age: number;
-  music_genres: string;
+  image_url: string;
   outfit: string;
-  location_town: string;
-  artists: string[];
+  ambiences: string[];
+  music_genres: string[];
+  artists: Array<{
+    name: string;
+    image_url: string;
+  }>;
+  organization_id: string;
+  location_id: string;
+  location: {
+    unic_id: string;
+    location_id: string;
+    organization_id: string;
+    name: string;
+    address: string;
+    number: string;
+    city: string;
+    country: string;
+    full_address: string;
+    latitude: number;
+    longitude: number;
+    timezone: string;
+  };
+  iframe: {
+    tag_url: string;
+    script_url: string;
+  };
+  currency: string;
 }
 
 export interface ProcessedEvent {

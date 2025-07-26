@@ -1,22 +1,14 @@
 'use client';
 import React from "react";
 import Navbar from "./components/Navbar";
-import EventGrid from "./components/EventGrid";
-import EventTabs from "./components/EventTabs";
 import HeroSlides from "./components/HeroSlides";
 import { useEvents } from "./hooks/useEvents";
-import { useEventFilters } from "./hooks/useEventFilters";
+import EventsDisplay from "./components/EventsDisplay";
+import CorporateContactForm from "./components/CorporateContactForm";
+import CorporateServices from "./components/CorporateServices";
 
 export default function Home() {
-  // Configuración de la API FourVenues
-  const apiConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FOURVENUES_API_KEY,
-    channelSlug: process.env.NEXT_PUBLIC_FOURVENUES_CHANNEL_SLUG,
-    enabled: !!(process.env.NEXT_PUBLIC_FOURVENUES_API_KEY && process.env.NEXT_PUBLIC_FOURVENUES_CHANNEL_SLUG)
-  };
-  
-  const { events, loading, error } = useEvents(apiConfig);
-  const { activeTab, filteredEvents, handleTabChange } = useEventFilters(events);
+  const { events, loading, error, refetch, clearError } = useEvents();
 
   return (
     <div className="min-h-screen bg-zinc-900">
@@ -51,53 +43,27 @@ export default function Home() {
           <img src="/bg-2.jpg" alt="Events Background" className="w-full h-full object-cover brightness-30" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-          Eventos Nocturnos Destacados
-          </h2>
-          <p className="text-md text-zinc-300 mb-8">
-          Puertas abiertas desde las 9:00 P.M.
-          </p>
-          
-          {/* Tabs de filtrado */}
-          {!loading && events.length > 0 && (
-            <EventTabs 
-              activeTab={activeTab} 
-              onTabChange={handleTabChange} 
-            />
-          )}
-          
-          {/* Estado de carga */}
-          {loading && (
-            <div className="flex justify-center items-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
-              <span className="ml-4 text-white">Cargando eventos...</span>
-            </div>
-          )}
+          {/* Display de eventos con opciones de visualización */}
+          <EventsDisplay events={events} loading={loading} />
           
           {/* Estado de error */}
           {error && (
             <div className="text-center py-20">
               <p className="text-red-400 mb-4">Error al cargar eventos: {error}</p>
-              <p className="text-zinc-400">Mostrando eventos de ejemplo</p>
-            </div>
-          )}
-          
-          {/* Grid de eventos */}
-          {!loading && filteredEvents.length > 0 && (
-            <EventGrid events={filteredEvents} />
-          )}
-          
-          {/* Estado vacío */}
-          {!loading && events.length > 0 && filteredEvents.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-zinc-400 text-lg">No hay eventos disponibles para esta categoría</p>
-            </div>
-          )}
-          
-          {/* Estado vacío general */}
-          {!loading && events.length === 0 && !error && (
-            <div className="text-center py-20">
-              <p className="text-zinc-400 text-lg">No hay eventos disponibles en este momento</p>
+              <div className="flex gap-4 justify-center mt-4">
+                <button 
+                  onClick={refetch}
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+                >
+                  Reintentar
+                </button>
+                <button 
+                  onClick={clearError}
+                  className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
+                >
+                  Ocultar Error
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -181,20 +147,24 @@ export default function Home() {
       </section>
 
       {/* Sección 5: Eventos Corporativos - bg-5 */}
-      <section id="eventos-corporativos" className="relative min-h-[420px] py-20 flex items-center">
+      <section id="eventos-corporativos" className="relative min-h-screen py-20">
         <div className="absolute inset-0 z-0">
           <img src="/bg-5.jpg" alt="Corporate Background" className="w-full h-full object-cover brightness-30" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 w-full">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Eventos Corporativos</h2>
-          <p className="text-zinc-300 mb-8 text-base md:text-lg">¿Planeas un evento empresarial o necesitas un espacio exclusivo? Conoce nuestras experiencias personalizadas para empresas.</p>
-          <div className="rounded-2xl overflow-hidden shadow-2xl bg-zinc-900/70 relative max-w-5xl mx-auto">
-            <img src="/slide-7.jpg" alt="Evento corporativo" className="w-full h-[320px] md:h-[400px] object-cover object-center brightness-75" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 drop-shadow-lg">Ofrecemos un entorno ideal para tus<br/>eventos corporativos.</h3>
-              <a href="#contacto" className="inline-block px-7 py-3 rounded-full border border-white text-white font-semibold bg-zinc-900/80 hover:bg-white hover:text-zinc-900 transition shadow-lg">IR A EVENTOS CORPORATIVOS</a>
-            </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Eventos Corporativos
+            </h2>
+            <p className="text-xl text-zinc-300 max-w-3xl mx-auto">
+              Transforma tu evento empresarial en una experiencia inolvidable. 
+              Nuestras instalaciones exclusivas y servicios personalizados están 
+              diseñados para hacer de tu evento corporativo un éxito rotundo.
+            </p>
           </div>
+
+          {/* Formulario de contacto */}
+          <CorporateContactForm />
         </div>
       </section>
 

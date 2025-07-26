@@ -1,81 +1,34 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { ApiEvent, ProcessedEvent } from '../types/Event';
-import { processApiEvents } from '../utils/eventHelpers';
-import { initFourVenuesApi, getFourVenuesApi } from '../services/fourVenuesApi';
-import { mockApiResponse, mockChannelsResponse } from '../data/mockEvents';
+import { useEffect } from 'react';
+import { useEventsStore } from '../store/eventsStore';
+import { transformApiEventsToProcessedEvents } from '../utils/eventTransformers';
+import { ProcessedEvent } from '../types/Event';
 
 interface UseEventsReturn {
   events: ProcessedEvent[];
   loading: boolean;
   error: string | null;
   refetch: () => void;
+  clearError: () => void;
 }
 
-interface UseEventsConfig {
-  apiKey?: string;
-  channelSlug?: string;
-  enabled?: boolean;
-}
-
-export const useEvents = (config?: UseEventsConfig): UseEventsReturn => {
-  const [events, setEvents] = useState<ProcessedEvent[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchEvents = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // Si no hay configuración de API, usar datos mock
-      if (!config?.apiKey || !config?.channelSlug || config?.enabled === false) {
-        // Simular delay de red para mostrar el loading
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        const processedEvents = processApiEvents(mockApiResponse.data);
-        setEvents(processedEvents);
-        setLoading(false);
-        return;
-      }
-      
-      // Inicializar el servicio API real
-      const apiService = initFourVenuesApi({
-        apiKey: config.apiKey,
-        baseUrl: 'https://api-alpha.fourvenues.com',
-        channelSlug: config.channelSlug
-      });
-      
-      // Obtener eventos del canal
-      const apiEvents: ApiEvent[] = await apiService.getEvents();
-      const processedEvents = processApiEvents(apiEvents);
-      
-      setEvents(processedEvents);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error desconocido al cargar eventos');
-      console.error('Error fetching events:', err);
-      
-      // En caso de error con la API real, usar datos mock como fallback
-      const processedEvents = processApiEvents(mockApiResponse.data);
-      setEvents(processedEvents);
-    } finally {
-      setLoading(false);
-    }
-  };
+export const useEvents = (): UseEventsReturn => {
+  const { events: apiEvents, loading, error, fetchEvents, clearError } = useEventsStore();
 
   useEffect(() => {
+    // Cargar eventos al montar el componente
     fetchEvents();
-  }, [config?.apiKey, config?.channelSlug, config?.enabled]);
+  }, [fetchEvents]);
 
-  const refetch = () => {
-    fetchEvents();
-  };
+  // Transformar eventos de la API al formato de la aplicación
+  const events: ProcessedEvent[] = transformApiEventsToProcessedEvents(apiEvents);
 
-  return {
-    events,
-    loading,
+  return { 
+    events, 
+    loading, 
     error,
-    refetch
+    refetch: fetchEvents,
+    clearError 
   };
 };
 

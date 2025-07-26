@@ -7,6 +7,32 @@ class FourVenuesApiService {
     this.config = config;
   }
 
+  async authenticate(): Promise<any> {
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Error authenticating:', error);
+      throw error;
+    }
+  }
+
   private async makeRequest<T>(endpoint: string): Promise<T> {
     const url = `${this.config.baseUrl}${endpoint}`;
     
@@ -51,6 +77,71 @@ class FourVenuesApiService {
 
   async getEventBySlug(channelSlug: string, eventSlug: string): Promise<ApiEvent> {
     return this.makeRequest<ApiEvent>(`/integrations/channels/${channelSlug}/events/${eventSlug}`);
+  }
+
+  async getEventById(eventId: string): Promise<ApiEvent> {
+    return this.makeRequestWithAlphaApi<ApiEvent>(`/integrations/events/${eventId}`);
+  }
+
+    async getAllEvents(): Promise<ApiEvent[]> {
+    try {
+      const response = await fetch('/api/events', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data: ApiResponse<ApiEvent[]> = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      if (!data.success) {
+        throw new Error('API returned success: false');
+      }
+
+      return data.data;
+    } catch (error) {
+      console.error(`Error fetching events:`, error);
+      throw error;
+    }
+  }
+
+  private async makeRequestWithAlphaApi<T>(endpoint: string): Promise<T> {
+    const url = `https://api-alpha.fourvenues.com${endpoint}`;
+    
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'integration_id': this.config.apiKey,
+          'secret': this.config.apiKey,
+          'x-api-key': this.config.apiKey,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data: ApiResponse<T> = await response.json();
+      
+      if (!data.success) {
+        throw new Error('API returned success: false');
+      }
+
+      return data.data;
+    } catch (error) {
+      console.error(`Error fetching ${endpoint}:`, error);
+      throw error;
+    }
   }
 }
 
