@@ -1,8 +1,4 @@
 import React from 'react';
-import { FaMusic, FaUser } from 'react-icons/fa';
-import { CiCalendar } from "react-icons/ci";
-import { LiaMapMarkerAltSolid } from "react-icons/lia";
-
 interface CardProps {
   image?: string;
   title: string;

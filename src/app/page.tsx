@@ -5,7 +5,6 @@ import HeroSlides from "./components/HeroSlides";
 import { useEvents } from "./hooks/useEvents";
 import EventsDisplay from "./components/EventsDisplay";
 import CorporateContactForm from "./components/CorporateContactForm";
-import CorporateServices from "./components/CorporateServices";
 
 export default function Home() {
   const { events, loading, error, refetch, clearError } = useEvents();
