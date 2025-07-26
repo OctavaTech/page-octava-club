@@ -1,8 +1,10 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useEventsStore } from '../store/eventsStore';
 import { transformApiEventsToProcessedEvents } from '../utils/eventTransformers';
 import { ProcessedEvent } from '../types/Event';
+import { mockChannelsResponse } from '../data/mockEvents';
+import { initFourVenuesApi } from '../services/fourVenuesApi';
 
 interface UseEventsReturn {
   events: ProcessedEvent[];
