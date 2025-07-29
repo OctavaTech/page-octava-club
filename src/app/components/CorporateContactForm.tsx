@@ -49,11 +49,11 @@ const CorporateContactForm: React.FC = () => {
   ];
 
   const budgetRanges = [
-    'Menos de $1,000',
-    '$1,000 - $3,000',
-    '$3,000 - $5,000',
-    '$5,000 - $10,000',
-    'Más de $10,000'
+    'Menos de $1.000.000',
+    '$1.000.000 - $3.000.000',
+    '$3.000.000 - $5.000.000',
+    '$5.000.000 - $10.000.000',
+    'Más de $10.000.000'
   ];
 
   const validateForm = (): boolean => {
@@ -123,11 +123,22 @@ const CorporateContactForm: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Simular envío del formulario
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Aquí puedes agregar la lógica real para enviar el formulario
-      console.log('Formulario enviado:', formData);
+      // Enviar formulario a la API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Error al enviar el formulario');
+      }
+
+      console.log('Formulario enviado exitosamente:', result);
       
       setIsSubmitted(true);
       setFormData({
@@ -144,6 +155,10 @@ const CorporateContactForm: React.FC = () => {
       });
     } catch (error) {
       console.error('Error al enviar formulario:', error);
+      // Mostrar error al usuario
+      setErrors({
+        submit: error instanceof Error ? error.message : 'Error al enviar el formulario'
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -380,6 +395,13 @@ const CorporateContactForm: React.FC = () => {
             <p className="text-red-400 text-sm mt-1">{errors.description}</p>
           )}
         </div>
+
+        {/* Mensaje de error general */}
+        {errors.submit && (
+          <div className="bg-red-900/50 backdrop-blur-sm rounded-lg p-4 border border-red-500">
+            <p className="text-red-300 text-center">{errors.submit}</p>
+          </div>
+        )}
 
         {/* Botón de Envío */}
         <div className="text-center pt-6">

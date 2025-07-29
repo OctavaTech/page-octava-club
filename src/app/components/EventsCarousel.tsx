@@ -31,8 +31,6 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
     return () => window.removeEventListener('resize', updateEventsPerView);
   }, []);
 
-
-
   // Calcular eventos visibles basados en el índice actual
   useEffect(() => {
     if (events.length > 0) {
