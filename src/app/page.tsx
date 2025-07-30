@@ -47,20 +47,20 @@ export default function Home() {
 
           {/* Llamada a la acción */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up-delay-3">
-            <button className="bg-gradient-to-r from-white to-gray-200 text-black rounded-full px-8 py-4 font-bold text-lg hover:from-gray-200 hover:to-white transition-all duration-300 hover:scale-105 shadow-2xl">
+            <a href="/about" className="bg-gradient-to-r from-white to-gray-200 text-black rounded-full px-8 py-4 font-bold text-lg hover:from-gray-200 hover:to-white transition-all duration-300 hover:scale-105 shadow-2xl">
               CONOCE NUESTRA HISTORIA
-            </button>
-            <button className="border-2 border-white text-white rounded-full px-8 py-4 font-bold text-lg hover:bg-white hover:text-black transition-all duration-300 hover:scale-105 shadow-2xl">
+            </a>
+            <a href="#galeria" className="border-2 border-white text-white rounded-full px-8 py-4 font-bold text-lg hover:bg-white hover:text-black transition-all duration-300 hover:scale-105 shadow-2xl">
               VIVE LA EXPERIENCIA
-            </button>
+            </a>
           </div>
 
           {/* Badge de reconocimiento */}
           <div className="mt-8 animate-fade-in-up-delay-4">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-gold-400 to-yellow-500 text-black px-4 py-2 rounded-full font-bold text-sm">
+            <a href="#reconocimientos" className="inline-flex items-center gap-2 bg-gradient-to-r from-gold-400 to-yellow-500 text-black px-4 py-2 rounded-full font-bold text-sm hover:from-yellow-400 hover:to-gold-500 transition-all duration-300 hover:scale-105 cursor-pointer">
               <span>🏆</span>
               <span>TOP 100 MUNDIAL DJ MAG 2024</span>
-            </div>
+            </a>
           </div>
         </div>
       </section>
@@ -195,88 +195,17 @@ export default function Home() {
           <CorporateContactForm />
         </div>
       </section>
-
-      {/* Sección 6: Contacto - bg-6 
-      <section id="contacto" className="relative min-h-screen py-20">
-        <div className="absolute inset-0 z-0">
-          <img src="/bg-6.jpg" alt="Contact Background" className="w-full h-full object-cover brightness-30" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4">
-            CONTACTO
-          </h2>
-          <p className="text-xl text-zinc-300 text-center mb-16 max-w-2xl mx-auto">
-            Estamos aquí para hacer realidad tu próximo evento
-          </p>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="bg-zinc-900/80 backdrop-blur rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-white mb-6">Envíanos un mensaje</h3>
-              <form className="space-y-4">
-                <input type="text" placeholder="Nombre completo" className="w-full p-3 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:border-indigo-500 focus:outline-none" />
-                <input type="email" placeholder="Email" className="w-full p-3 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:border-indigo-500 focus:outline-none" />
-                <input type="tel" placeholder="Teléfono" className="w-full p-3 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:border-indigo-500 focus:outline-none" />
-                <textarea placeholder="Mensaje" rows={4} className="w-full p-3 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:border-indigo-500 focus:outline-none resize-none"></textarea>
-                <button type="submit" className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg py-3 font-semibold hover:from-blue-600 hover:to-indigo-600 transition">
-                  ENVIAR MENSAJE
-                </button>
-              </form>
-            </div>
-            <div className="bg-zinc-900/80 backdrop-blur rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-white mb-6">Información de contacto</h3>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
-                    📍
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold mb-1">Dirección</h4>
-                    <p className="text-zinc-300">Cra 8. #63 - 41, Bogotá</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
-                    📞
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold mb-1">Teléfono</h4>
-                    <p className="text-zinc-300">+57 300 123 4567</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
-                    ✉️
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold mb-1">Email</h4>
-                    <p className="text-zinc-300">info@octavaclub.com</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
-                    🕒
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold mb-1">Horarios</h4>
-                    <p className="text-zinc-300">Jueves a Sábado: 9:00 PM - 4:00 AM</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      */}
       
       {/* Footer personalizado */}
-      <footer className="bg-gradient-to-b from-black via-[#0a0a2a] to-[#0a0a2a] pt-12 pb-6 px-4 mt-12">
+      <footer id="contacto" className="bg-gradient-to-b from-black via-[#0a0a2a] to-[#0a0a2a] pt-12 pb-6 px-4 mt-12">
         <div className="max-w-5xl mx-auto flex flex-col items-center">
           <img src="/Logo-footer.svg" alt="Logo Octava" className="w-24 h-24 mb-4" />
           <hr className="w-full border-t border-zinc-400/30 my-6" />
           <div className="flex gap-6 mb-6">
-            <a href="#" aria-label="Instagram" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-instagram"></i></a>
-            <a href="#" aria-label="Facebook" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-facebook-f"></i></a>
-            <a href="#" aria-label="Spotify" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-spotify"></i></a>
-            <a href="#" aria-label="TikTok" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-tiktok"></i></a>
+            <a href="https://www.instagram.com/octavaclub" aria-label="Instagram" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/cluboctava" aria-label="Facebook" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-facebook-f"></i></a>
+            <a href="https://open.spotify.com/user/9w129wyp9f9j9ozpcw4l31rbb?si=CEXg_dN9SNar1Ru1DEbMpQ&nd=1&dlsi=c14e1a7f68b44cca" aria-label="Spotify" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-spotify"></i></a>
+            <a href="https://www.tiktok.com/@octavaclub" aria-label="TikTok" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-tiktok"></i></a>
           </div>
           <div className="text-center text-white/80 mb-2 font-semibold tracking-wide">CONTACTO</div>
           <div className="flex flex-col md:flex-row gap-2 md:gap-8 text-center text-zinc-200 text-sm mb-4">

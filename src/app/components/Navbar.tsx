@@ -82,7 +82,6 @@ const Navbar: React.FC = () => {
           <li>
             <a href="#eventos-corporativos" className={`bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-full shadow font-semibold ml-2 hover:from-blue-600 hover:to-indigo-600 transition flex items-center gap-2 ${activeSection === 'eventos-corporativos' ? 'ring-2 ring-white ring-opacity-50' : ''}`}>
               EVENTOS CORPORATIVOS
-              <span className="ml-1">↗</span>
             </a>
           </li>
           <li>
@@ -92,16 +91,16 @@ const Navbar: React.FC = () => {
 
         {/* Redes sociales Desktop */}
         <div className="hidden md:flex gap-4 items-center text-white text-xl">
-          <a href="#" aria-label="Instagram" className="hover:text-blue-400 transition">
+          <a href="https://www.instagram.com/octavaclub" aria-label="Instagram" className="hover:text-blue-400 transition">
             <FaInstagram />
           </a>
-          <a href="#" aria-label="Facebook" className="hover:text-blue-400 transition">
+          <a href="https://www.facebook.com/cluboctava" aria-label="Facebook" className="hover:text-blue-400 transition">
             <FaFacebookF />
           </a>
-          <a href="#" aria-label="Spotify" className="hover:text-blue-400 transition">
+          <a href="https://open.spotify.com/user/9w129wyp9f9j9ozpcw4l31rbb?si=CEXg_dN9SNar1Ru1DEbMpQ&nd=1&dlsi=c14e1a7f68b44cca" aria-label="Spotify" className="hover:text-blue-400 transition">
             <FaSpotify />
           </a>
-          <a href="#" aria-label="TikTok" className="hover:text-blue-400 transition">
+          <a href="https://www.tiktok.com/@octavaclub" aria-label="TikTok" className="hover:text-blue-400 transition">
             <FaTiktok />
           </a>
         </div>

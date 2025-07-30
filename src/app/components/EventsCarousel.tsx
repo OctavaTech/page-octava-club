@@ -12,7 +12,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [visibleEvents, setVisibleEvents] = useState<ProcessedEvent[]>([]);
-  const [eventsPerView, setEventsPerView] = useState(3);
+  const [eventsPerView, setEventsPerView] = useState(4);
 
   // Detectar el número de eventos por vista basado en el tamaño de pantalla
   useEffect(() => {
@@ -22,7 +22,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
       } else if (window.innerWidth < 1024) {
         setEventsPerView(2); // Tablet: 2 eventos
       } else {
-        setEventsPerView(3); // Desktop: 3 eventos
+        setEventsPerView(4); // Desktop: 3 eventos
       }
     };
 
@@ -46,7 +46,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % Math.max(1, events.length - eventsPerView + 1));
-    }, 5000); // Cambiar cada 5 segundos
+    }, 9000); // Cambiar cada 9 segundos
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, events.length, eventsPerView]);
@@ -131,12 +131,12 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
               key={event.id}
               className={`flex-shrink-0 px-4 ${
                 eventsPerView === 1 ? 'w-full' : 
-                eventsPerView === 2 ? 'w-1/2' : 'w-1/3'
+                eventsPerView === 3 ? 'w-1/2' : 'w-1/4'
               }`}
             >
-              <div className="bg-zinc-900/95 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full max-w-sm mx-auto">
+              <div className="bg-zinc-900/95 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full max-w-sm mx-auto flex flex-col">
                 {/* Imagen del evento */}
-                <div className="relative h-48 sm:h-56 overflow-hidden">
+                <div className="relative h-48 sm:h-56 overflow-hidden flex-shrink-0">
                   {event.image && (
                     <img
                       src={event.image}
@@ -155,48 +155,50 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
                 </div>
 
                 {/* Contenido */}
-                <div className="p-4 sm:p-6">
-                  <h4 className="text-base sm:text-lg font-bold text-white mb-2 line-clamp-2 min-h-[3rem]">
-                    {event.title}
-                  </h4>
-                  
-                  <p className="text-xs sm:text-sm text-zinc-300 mb-3 line-clamp-2 min-h-[2.5rem]">
-                    {event.description}
-                  </p>
+                <div className="p-4 sm:p-6 flex flex-col flex-grow">
+                  <div className="flex-grow">
+                    <h4 className="text-base sm:text-lg font-bold text-white mb-2 line-clamp-2 min-h-[3rem]">
+                      {event.title}
+                    </h4>
+                    
+                    <p className="text-xs sm:text-sm text-zinc-300 mb-3 line-clamp-2 min-h-[2.5rem]">
+                      {event.description}
+                    </p>
 
-                  {/* Fecha y ubicación */}
-                  <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400 mb-3">
-                    <span className="flex items-center gap-1">
-                      <img src="/icons/icon-calendar.svg" alt="calendar" className="w-3 h-3 sm:w-4 sm:h-4" />
-                      {event.date}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400 mb-4">
-                    <span className="flex items-center gap-1">
-                      <img src="/icons/icon-location.svg" alt="location" className="w-3 h-3 sm:w-4 sm:h-4" />
-                      {event.address}
-                    </span>
-                  </div>
-
-                  {/* Géneros musicales */}
-                  {event.musicGenres && (
-                    <div className="mb-4">
-                      <div className="flex flex-wrap gap-1">
-                        {event.musicGenres.split(', ').slice(0, 2).map((genre, idx) => (
-                          <span
-                            key={idx}
-                            className="text-xs bg-blue-600/20 text-blue-300 px-2 py-1 rounded-full"
-                          >
-                            {genre}
-                          </span>
-                        ))}
-                      </div>
+                    {/* Fecha y ubicación */}
+                    <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400 mb-3">
+                      <span className="flex items-center gap-1">
+                        <img src="/icons/icon-calendar.svg" alt="calendar" className="w-3 h-3 sm:w-4 sm:h-4" />
+                        {event.date}
+                      </span>
                     </div>
-                  )}
 
-                  {/* Botones */}
-                  <div className="flex gap-2">
+                    <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400 mb-4">
+                      <span className="flex items-center gap-1">
+                        <img src="/icons/icon-location.svg" alt="location" className="w-3 h-3 sm:w-4 sm:h-4" />
+                        {event.address}
+                      </span>
+                    </div>
+
+                    {/* Géneros musicales */}
+                    {event.musicGenres && (
+                      <div className="mb-4">
+                        <div className="flex flex-wrap gap-1">
+                          {event.musicGenres.split(', ').slice(0, 2).map((genre, idx) => (
+                            <span
+                              key={idx}
+                              className="text-xs bg-blue-600/20 text-blue-300 px-2 py-1 rounded-full"
+                            >
+                              {genre}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Botones - siempre al fondo */}
+                  <div className="flex gap-2 mt-auto pt-4">
                     {event.buttons.map((button, btnIndex) => (
                       <button
                         key={btnIndex}
