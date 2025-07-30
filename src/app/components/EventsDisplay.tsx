@@ -13,7 +13,7 @@ interface EventsDisplayProps {
 type DisplayMode = 'banner' | 'carousel';
 
 const EventsDisplay: React.FC<EventsDisplayProps> = ({ events, loading }) => {
-  const [displayMode, setDisplayMode] = useState<DisplayMode>('banner');
+  const [displayMode, setDisplayMode] = useState<DisplayMode>('carousel');
 
   return (
     <div className="w-full">
