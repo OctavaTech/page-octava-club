@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { ProcessedEvent } from '../types/Event';
-import { FaChevronLeft, FaChevronRight, FaPlay, FaPause } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaPlay, FaPause, FaTimes } from 'react-icons/fa';
 
 interface EventsBannerProps {
   events: ProcessedEvent[];
@@ -11,6 +11,8 @@ interface EventsBannerProps {
 const EventsBanner: React.FC<EventsBannerProps> = ({ events, loading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [selectedEvent, setSelectedEvent] = useState<ProcessedEvent | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const eventsPerView = 6; // Mostrar 6 eventos a la vez
 
   // Auto-play
@@ -19,7 +21,7 @@ const EventsBanner: React.FC<EventsBannerProps> = ({ events, loading }) => {
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % Math.max(1, events.length - eventsPerView + 1));
-    }, 4000); // Cambiar cada 4 segundos
+    }, 5000); // Cambiar cada 4 segundos
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, events.length]);
@@ -39,6 +41,39 @@ const EventsBanner: React.FC<EventsBannerProps> = ({ events, loading }) => {
   const toggleAutoPlay = () => {
     setIsAutoPlaying(!isAutoPlaying);
   };
+
+  const openEventModal = (event: ProcessedEvent) => {
+    setSelectedEvent(event);
+    setIsModalOpen(true);
+    setIsAutoPlaying(false); // Pausar el banner
+  };
+
+  const closeEventModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+    setIsAutoPlaying(true); // Reanudar el banner
+  };
+
+  // Cerrar modal con Escape
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isModalOpen) {
+        closeEventModal();
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden'; // Prevenir scroll
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
 
   if (loading) {
     return (
@@ -119,74 +154,67 @@ const EventsBanner: React.FC<EventsBannerProps> = ({ events, loading }) => {
                   </div>
                 </div>
 
-                {/* Contenido */}
-                <div className="p-3">
-                  <h4 className="text-sm font-bold text-white mb-1 line-clamp-1">
-                    {event.title}
-                  </h4>
-                  
-                  <p className="text-xs text-zinc-300 mb-2 line-clamp-2">
-                    {event.description}
-                  </p>
+                                 {/* Contenido */}
+                 <div className="p-3 flex flex-col min-h-[120px]">
+                   <div className="flex-grow">
+                     <h4 className="text-sm font-bold text-white mb-1 line-clamp-1">
+                       {event.title}
+                     </h4>
+                     
+                     <p className="text-xs text-zinc-300 mb-2 line-clamp-2">
+                       {event.description}
+                     </p>
 
-                  {/* Fecha */}
-                  <div className="flex items-center gap-1 text-xs text-zinc-400 mb-2">
-                    <img src="/icons/icon-calendar.svg" alt="calendar" className="w-3 h-3" />
-                    <span className="line-clamp-1">{event.date}</span>
-                  </div>
+                     {/* Fecha */}
+                     <div className="flex items-center gap-1 text-xs text-zinc-400 mb-2">
+                       <img src="/icons/icon-calendar.svg" alt="calendar" className="w-3 h-3" />
+                       <span className="line-clamp-1">{event.date}</span>
+                     </div>
 
-                  {/* Géneros musicales */}
-                  {event.musicGenres && (
-                    <div className="mb-3">
-                      <div className="flex flex-wrap gap-1">
-                        {event.musicGenres.split(', ').slice(0, 1).map((genre, idx) => (
-                          <span
-                            key={idx}
-                            className="text-xs bg-blue-600/20 text-blue-300 px-2 py-1 rounded-full"
-                          >
-                            {genre}
-                          </span>
-                        ))}
+                                           {/* Géneros musicales */}
+                      <div className="mb-2">
+                        <div className="flex flex-wrap gap-1">
+                          {event.musicGenres ? (
+                            event.musicGenres.split(', ').slice(0, 1).map((genre, idx) => (
+                              <span
+                                key={idx}
+                                className="text-xs bg-blue-600/20 text-blue-300 px-2 py-1 rounded-full"
+                              >
+                                {genre}
+                              </span>
+                            ))
+                          ) : (
+                            <span className="text-xs bg-blue-600/20 text-blue-300 px-2 py-1 rounded-full">
+                              techno
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                   </div>
 
-                  {/* Botón principal */}
-                  <button
-                    onClick={() => {
-                      const primaryButton = event.buttons[0];
-                      if (primaryButton?.href) {
-                        window.open(primaryButton.href, '_blank', 'noopener,noreferrer');
-                      }
-                    }}
-                    className="w-full bg-white text-zinc-900 py-1.5 px-3 rounded-lg text-xs font-semibold hover:bg-zinc-200 transition-colors"
-                  >
-                    {event.buttons[0]?.label || 'Ver Evento'}
-                  </button>
-                </div>
+                   {/* Botón principal - siempre al fondo */}
+                   <div className="mt-auto pt-2">
+                     <button
+                       onClick={() => {
+                         const primaryButton = event.buttons[0];
+                         if (primaryButton?.href) {
+                           window.open(primaryButton.href, '_blank', 'noopener,noreferrer');
+                         }
+                       }}
+                       className="w-full bg-white text-zinc-900 py-1.5 px-3 rounded-lg text-xs font-semibold hover:bg-zinc-200 transition-colors"
+                     >
+                       {event.buttons[0]?.label || 'Ver Evento'}
+                     </button>
+                   </div>
+                 </div>
 
-                {/* Overlay hover */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                {/* Overlay hover - solo en la imagen */}
+                <div 
+                  className="absolute top-0 left-0 right-0 h-32 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
+                  onClick={() => openEventModal(event)}
+                >
                   <div className="text-center">
-                    <p className="text-white text-sm font-semibold mb-2">Ver Detalles</p>
-                    <div className="flex gap-2">
-                      {event.buttons.map((button, btnIndex) => (
-                        <button
-                          key={btnIndex}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (button.onClick) {
-                              button.onClick();
-                            } else if (button.href) {
-                              window.open(button.href, '_blank', 'noopener,noreferrer');
-                            }
-                          }}
-                          className="bg-white text-zinc-900 py-1 px-3 rounded text-xs font-semibold hover:bg-zinc-200 transition-colors"
-                        >
-                          {button.label}
-                        </button>
-                      ))}
-                    </div>
+                    <p className="text-white text-sm font-semibold">Ver Detalles</p>
                   </div>
                 </div>
               </div>
@@ -209,6 +237,88 @@ const EventsBanner: React.FC<EventsBannerProps> = ({ events, loading }) => {
           />
         ))}
       </div>
+
+      {/* Modal de detalles del evento */}
+      {isModalOpen && selectedEvent && (
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
+          {/* Overlay */}
+          <div 
+            className="absolute inset-0 bg-black/90 backdrop-blur-md z-[99999]"
+            onClick={closeEventModal}
+          ></div>
+          
+                     {/* Modal */}
+           <div className="relative bg-zinc-900 rounded-2xl max-w-xl w-full max-h-[90vh] overflow-hidden shadow-2xl z-[999999]">
+             {/* Header del modal */}
+             <div className="sticky top-0 bg-zinc-900 rounded-t-2xl p-3 md:p-4 border-b border-zinc-800 z-20">
+               <div className="flex justify-between items-start">
+                 <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-white pr-4 line-clamp-2">
+                   {selectedEvent.title}
+                 </h2>
+                 <button
+                   onClick={closeEventModal}
+                   className="text-zinc-400 hover:text-white transition-colors p-2 flex-shrink-0"
+                 >
+                   <FaTimes size={20} />
+                 </button>
+               </div>
+             </div>
+
+             {/* Contenido del modal - Layout vertical en móvil, horizontal en desktop */}
+             <div className="flex flex-col lg:flex-row">
+               {/* Imagen del evento - Arriba en móvil, izquierda en desktop */}
+               {selectedEvent.image && (
+                 <div className="w-full lg:w-1/2 relative">
+                   <div className="relative h-48 md:h-56 lg:h-full">
+                     <img
+                       src={selectedEvent.image}
+                       alt={selectedEvent.title}
+                       className="w-full h-full object-cover"
+                     />
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                     
+                     {/* Badge de edad */}
+                     <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 rounded-full text-xs font-bold">
+                       +{selectedEvent.age}
+                     </div>
+                   </div>
+                 </div>
+               )}
+
+               {/* Contenido - Abajo en móvil, derecha en desktop */}
+               <div className="w-full lg:w-1/2 p-3 md:p-4 overflow-y-auto">
+                 {/* Descripción */}
+                 <div className="mb-3 md:mb-4">
+                   <p className="text-xs md:text-sm text-zinc-300 leading-relaxed">
+                     {selectedEvent.description}
+                   </p>
+                 </div>
+
+                 {/* Botones de acción - Solo botones que no sean "Ver Detalles" */}
+                 <div className="flex flex-col gap-2 pt-3 border-t border-zinc-800">
+                   {selectedEvent.buttons
+                     .filter(button => !button.label.toLowerCase().includes('detalles') && !button.label.toLowerCase().includes('ver'))
+                     .map((button, btnIndex) => (
+                       <button
+                         key={btnIndex}
+                         onClick={() => {
+                           if (button.onClick) {
+                             button.onClick();
+                           } else if (button.href) {
+                             window.open(button.href, '_blank', 'noopener,noreferrer');
+                           }
+                         }}
+                         className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 md:py-3 px-4 rounded-lg text-sm md:text-base font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+                       >
+                         {button.label}
+                       </button>
+                     ))}
+                 </div>
+               </div>
+             </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 };
