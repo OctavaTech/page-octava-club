@@ -1,7 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { ProcessedEvent } from '../types/Event';
-import { FaChevronLeft, FaChevronRight, FaPlay, FaPause, FaTimes, FaCalendar, FaMapMarkerAlt, FaMusic, FaTshirt, FaUsers } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaPlay, FaPause, FaCalendar, FaMapMarkerAlt, FaMusic, FaTshirt, FaUsers } from 'react-icons/fa';
+import { useModal } from '../contexts/ModalContext';
 
 interface EventsCarouselProps {
   events: ProcessedEvent[];
@@ -13,8 +14,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [visibleEvents, setVisibleEvents] = useState<ProcessedEvent[]>([]);
   const [eventsPerView, setEventsPerView] = useState(4);
-  const [selectedEvent, setSelectedEvent] = useState<ProcessedEvent | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { openEventModal } = useModal();
 
   // Detectar el número de eventos por vista basado en el tamaño de pantalla
   useEffect(() => {
@@ -73,38 +73,10 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
     setIsAutoPlaying(!isAutoPlaying);
   };
 
-  const openEventModal = (event: ProcessedEvent) => {
-    setSelectedEvent(event);
-    setIsModalOpen(true);
+  const handleOpenModal = (event: ProcessedEvent) => {
+    openEventModal(event);
     setIsAutoPlaying(false); // Pausar el carrusel
   };
-
-  const closeEventModal = () => {
-    setIsModalOpen(false);
-    setSelectedEvent(null);
-    setIsAutoPlaying(true); // Reanudar el carrusel
-  };
-
-  // Cerrar modal con Escape
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isModalOpen) {
-        closeEventModal();
-      }
-    };
-
-    if (isModalOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden'; // Prevenir scroll
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isModalOpen]);
 
   if (loading) {
     return (
@@ -237,15 +209,15 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
                     {event.buttons.map((button, btnIndex) => (
                       <button
                         key={btnIndex}
-                        onClick={() => {
-                          if (button.label.toLowerCase().includes('detalles') || button.label.toLowerCase().includes('ver')) {
-                            openEventModal(event);
-                          } else if (button.onClick) {
-                            button.onClick();
-                          } else if (button.href) {
-                            window.open(button.href, '_blank', 'noopener,noreferrer');
-                          }
-                        }}
+                                                 onClick={() => {
+                           if (button.label.toLowerCase().includes('detalles') || button.label.toLowerCase().includes('ver')) {
+                             handleOpenModal(event);
+                           } else if (button.onClick) {
+                             button.onClick();
+                           } else if (button.href) {
+                             window.open(button.href, '_blank', 'noopener,noreferrer');
+                           }
+                         }}
                         className="flex-1 bg-white text-zinc-900 py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-semibold hover:bg-zinc-200 transition-colors"
                       >
                         {button.label}
@@ -259,104 +231,22 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
         </div>
       </div>
 
-      {/* Indicadores de puntos */}
-      <div className="flex justify-center mt-6 gap-2">
-        {Array.from({ length: Math.ceil(events.length / eventsPerView) }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index * eventsPerView)}
-            className={`w-3 h-3 rounded-full transition-colors ${
-              Math.floor(currentIndex / eventsPerView) === index
-                ? 'bg-white'
-                : 'bg-white/30 hover:bg-white/50'
-            }`}
-          />
-        ))}
-      </div>
-
-             {/* Modal de detalles del evento */}
-       {isModalOpen && selectedEvent && (
-         <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
-           {/* Overlay */}
-           <div 
-             className="absolute inset-0 bg-black/90 backdrop-blur-md z-[99999]"
-             onClick={closeEventModal}
-           ></div>
-           
-                        {/* Modal */}
-           <div className="relative bg-zinc-900 rounded-2xl max-w-xl w-full max-h-[90vh] overflow-hidden shadow-2xl z-[999999]">
-             {/* Header del modal */}
-             <div className="sticky top-0 bg-zinc-900 rounded-t-2xl p-3 md:p-4 border-b border-zinc-800 z-20">
-               <div className="flex justify-between items-start">
-                 <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-white pr-4 line-clamp-2">
-                   {selectedEvent.title}
-                 </h2>
-                 <button
-                   onClick={closeEventModal}
-                   className="text-zinc-400 hover:text-white transition-colors p-2 flex-shrink-0"
-                 >
-                   <FaTimes size={20} />
-                 </button>
-               </div>
-             </div>
-
-             {/* Contenido del modal - Layout vertical en móvil, horizontal en desktop */}
-             <div className="flex flex-col lg:flex-row">
-               {/* Imagen del evento - Arriba en móvil, izquierda en desktop */}
-               {selectedEvent.image && (
-                 <div className="w-full lg:w-1/2 relative">
-                   <div className="relative h-48 md:h-56 lg:h-full">
-                     <img
-                       src={selectedEvent.image}
-                       alt={selectedEvent.title}
-                       className="w-full h-full object-cover"
-                     />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                     
-                     {/* Badge de edad */}
-                     <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 rounded-full text-xs font-bold">
-                       +{selectedEvent.age}
-                     </div>
-                   </div>
-                 </div>
-               )}
-
-               {/* Contenido - Abajo en móvil, derecha en desktop */}
-               <div className="w-full lg:w-1/2 p-3 md:p-4 overflow-y-auto">
-                 {/* Descripción */}
-                 <div className="mb-3 md:mb-4">
-                   <p className="text-xs md:text-sm text-zinc-300 leading-relaxed">
-                     {selectedEvent.description}
-                   </p>
-                 </div>
-
-                 {/* Botones de acción - Solo botones que no sean "Ver Detalles" */}
-                 <div className="flex flex-col gap-2 pt-3 border-t border-zinc-800">
-                   {selectedEvent.buttons
-                     .filter(button => !button.label.toLowerCase().includes('detalles') && !button.label.toLowerCase().includes('ver'))
-                     .map((button, btnIndex) => (
-                       <button
-                         key={btnIndex}
-                         onClick={() => {
-                           if (button.onClick) {
-                             button.onClick();
-                           } else if (button.href) {
-                             window.open(button.href, '_blank', 'noopener,noreferrer');
-                           }
-                         }}
-                         className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 md:py-3 px-4 rounded-lg text-sm md:text-base font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
-                       >
-                         {button.label}
-                       </button>
-                     ))}
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       )}
-    </div>
-  );
-};
+             {/* Indicadores de puntos */}
+       <div className="flex justify-center mt-6 gap-2">
+         {Array.from({ length: Math.ceil(events.length / eventsPerView) }).map((_, index) => (
+           <button
+             key={index}
+             onClick={() => goToSlide(index * eventsPerView)}
+             className={`w-3 h-3 rounded-full transition-colors ${
+               Math.floor(currentIndex / eventsPerView) === index
+                 ? 'bg-white'
+                 : 'bg-white/30 hover:bg-white/50'
+             }`}
+           />
+         ))}
+       </div>
+     </div>
+   );
+ };
 
 export default EventsCarousel; 
