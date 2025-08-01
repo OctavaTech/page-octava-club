@@ -91,16 +91,16 @@ const Navbar: React.FC = () => {
 
         {/* Redes sociales Desktop */}
         <div className="hidden md:flex gap-4 items-center text-white text-xl">
-          <a href="https://www.instagram.com/octavaclub" aria-label="Instagram" className="hover:text-blue-400 transition">
+          <a href="https://www.instagram.com/octavaclub" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-blue-400 transition">
             <FaInstagram />
           </a>
-          <a href="https://www.facebook.com/cluboctava" aria-label="Facebook" className="hover:text-blue-400 transition">
+          <a href="https://www.facebook.com/cluboctava" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-blue-400 transition">
             <FaFacebookF />
           </a>
-          <a href="https://open.spotify.com/user/9w129wyp9f9j9ozpcw4l31rbb?si=CEXg_dN9SNar1Ru1DEbMpQ&nd=1&dlsi=c14e1a7f68b44cca" aria-label="Spotify" className="hover:text-blue-400 transition">
+          <a href="https://open.spotify.com/user/9w129wyp9f9j9ozpcw4l31rbb?si=CEXg_dN9SNar1Ru1DEbMpQ&nd=1&dlsi=c14e1a7f68b44cca" target="_blank" rel="noopener noreferrer" aria-label="Spotify" className="hover:text-blue-400 transition">
             <FaSpotify />
           </a>
-          <a href="https://www.tiktok.com/@octavaclub" aria-label="TikTok" className="hover:text-blue-400 transition">
+          <a href="https://www.tiktok.com/@octavaclub" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="hover:text-blue-400 transition">
             <FaTiktok />
           </a>
         </div>
@@ -139,19 +139,19 @@ const Navbar: React.FC = () => {
           
           {/* Redes sociales móvil */}
           <div className="flex gap-6 items-center text-white text-3xl mt-8">
-            <a href="#" aria-label="Instagram" className="hover:text-blue-400 transition">
+            <a href="https://www.instagram.com/octavaclub" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-blue-400 transition">
               <FaInstagram />
             </a>
-            <a href="#" aria-label="Facebook" className="hover:text-blue-400 transition">
+            <a href="https://www.facebook.com/cluboctava" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-blue-400 transition">
               <FaFacebookF />
             </a>
-            <a href="#" aria-label="Spotify" className="hover:text-blue-400 transition">
+            <a href="https://open.spotify.com/user/9w129wyp9f9j9ozpcw4l31rbb?si=CEXg_dN9SNar1Ru1DEbMpQ&nd=1&dlsi=c14e1a7f68b44cca" target="_blank" rel="noopener noreferrer" aria-label="Spotify" className="hover:text-blue-400 transition">
               <FaSpotify />
             </a>
-            <a href="#" aria-label="TikTok" className="hover:text-blue-400 transition">
+            <a href="https://www.tiktok.com/@octavaclub" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="hover:text-blue-400 transition">
               <FaTiktok />
             </a>
-            <a href="#" aria-label="WhatsApp" className="hover:text-blue-400 transition">
+            <a href="https://wa.me/573156607465" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="hover:text-blue-400 transition">
               <FaWhatsapp />
             </a>
           </div>

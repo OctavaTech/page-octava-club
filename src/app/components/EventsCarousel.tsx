@@ -13,7 +13,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [visibleEvents, setVisibleEvents] = useState<ProcessedEvent[]>([]);
-  const [eventsPerView, setEventsPerView] = useState(4);
+  const [eventsPerView, setEventsPerView] = useState(3);
   const { openEventModal } = useModal();
 
   // Detectar el número de eventos por vista basado en el tamaño de pantalla
@@ -24,7 +24,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
       } else if (window.innerWidth < 1024) {
         setEventsPerView(2); // Tablet: 2 eventos
       } else {
-        setEventsPerView(4); // Desktop: 3 eventos
+        setEventsPerView(3); // Desktop: 3 eventos
       }
     };
 
@@ -138,7 +138,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
               key={event.id}
               className={`flex-shrink-0 px-4 ${
                 eventsPerView === 1 ? 'w-full' : 
-                eventsPerView === 3 ? 'w-1/2' : 'w-1/4'
+                eventsPerView === 2 ? 'w-1/2' : 'w-1/3'
               }`}
             >
               <div className="bg-zinc-900/95 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full max-w-sm mx-auto flex flex-col">
@@ -153,7 +153,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
                     />
                   )}
                   
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/70 via-zinc-900/40 via-zinc-900/20 to-transparent" style={{ mixBlendMode: 'overlay' }}></div>
                   
                   {/* Badge de edad */}
                   <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
@@ -218,7 +218,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
                              window.open(button.href, '_blank', 'noopener,noreferrer');
                            }
                          }}
-                        className="flex-1 bg-white text-zinc-900 py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-semibold hover:bg-zinc-200 transition-colors"
+                        className="flex-1 border-2 border-blue-500 text-white py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-semibold hover:border-blue-500 hover:bg-blue-500 hover:text-white transition-colors"
                       >
                         {button.label}
                       </button>

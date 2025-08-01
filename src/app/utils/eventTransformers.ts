@@ -16,7 +16,7 @@ export const transformApiEventToProcessedEvent = (apiEvent: ApiEvent): Processed
   // Crear botones para el evento
   const buttons = [
     {
-      label: 'Comprar Entrada',
+      label: 'Comprar',
       href: apiEvent.iframe.tag_url,
     },
     {
