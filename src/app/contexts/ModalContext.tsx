@@ -1,7 +1,8 @@
 'use client';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { ProcessedEvent } from '../types/Event';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaCalendar, FaMapMarkerAlt, FaMusic, FaTshirt, FaUsers } from 'react-icons/fa';
+import ReactMarkdown from 'react-markdown';
 
 interface ModalContextType {
   openEventModal: (event: ProcessedEvent) => void;
@@ -9,6 +10,7 @@ interface ModalContextType {
   selectedEvent: ProcessedEvent | null;
   isModalOpen: boolean;
 }
+
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
@@ -71,71 +73,139 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
           ></div>
           
           {/* Modal */}
-          <div className="relative bg-zinc-900 rounded-2xl max-w-xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
-            {/* Header del modal */}
-            <div className="sticky top-0 bg-zinc-900 rounded-t-2xl p-3 md:p-4 border-b border-zinc-800 z-20">
-              <div className="flex justify-between items-start">
-                <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-white pr-4 line-clamp-2">
-                  {selectedEvent.title}
-                </h2>
-                <button
-                  onClick={closeEventModal}
-                  className="text-zinc-400 hover:text-white transition-colors p-2 flex-shrink-0"
-                >
-                  <FaTimes size={20} />
-                </button>
-              </div>
-            </div>
-
-            {/* Contenido del modal - Layout vertical en móvil, horizontal en desktop */}
-            <div className="flex flex-col lg:flex-row">
-              {/* Imagen del evento - Arriba en móvil, izquierda en desktop */}
+          <div className="relative bg-zinc-900 rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+            <div className="flex h-full">
+              {/* Imagen del evento - Lado izquierdo */}
               {selectedEvent.image && (
-                <div className="w-full lg:w-1/2 relative">
-                  <div className="relative h-48 md:h-56 lg:h-full">
+                <div className="w-1/2 relative">
+                  <div className="relative h-full min-h-[600px]">
                     <img
                       src={selectedEvent.image}
                       alt={selectedEvent.title}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                     
                     {/* Badge de edad */}
-                    <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 rounded-full text-xs font-bold">
+                    <div className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
                       +{selectedEvent.age}
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Contenido - Abajo en móvil, derecha en desktop */}
-              <div className="w-full lg:w-1/2 p-3 md:p-4 overflow-y-auto">
-                {/* Descripción */}
-                <div className="mb-3 md:mb-4">
-                  <p className="text-xs md:text-sm text-zinc-300 leading-relaxed">
-                    {selectedEvent.description}
-                  </p>
+              {/* Información del evento - Lado derecho */}
+              <div className="w-1/2 flex flex-col">
+                {/* Header con botón cerrar */}
+                <div className="flex justify-between items-start p-6 border-b border-zinc-800">
+                  {/* Fecha y hora */}
+                  <div className="text-white/80 text-sm uppercase tracking-wide">
+                    {selectedEvent.date} | 21:00 → 03:00
+                  </div>
+                  
+                  {/* Botón cerrar */}
+                  <button
+                    onClick={closeEventModal}
+                    className="text-zinc-400 hover:text-white transition-colors p-2"
+                  >
+                    <FaTimes size={20} />
+                  </button>
                 </div>
 
-                {/* Botones de acción - Solo botones que no sean "Ver Detalles" */}
-                <div className="flex flex-col gap-2 pt-3 border-t border-zinc-800">
-                  {selectedEvent.buttons
-                    .filter(button => !button.label.toLowerCase().includes('detalles') && !button.label.toLowerCase().includes('ver'))
-                    .map((button, btnIndex) => (
-                      <button
-                        key={btnIndex}
-                        onClick={() => {
-                          if (button.onClick) {
-                            button.onClick();
-                          } else if (button.href) {
-                            window.open(button.href, '_blank', 'noopener,noreferrer');
-                          }
-                        }}
-                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 md:py-3 px-4 rounded-lg text-sm md:text-base font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
-                      >
-                        {button.label}
-                      </button>
-                    ))}
+                {/* Contenido scrolleable */}
+                <div className="flex-1 overflow-y-auto p-6">
+                  {/* Título del evento */}
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                    {selectedEvent.title}
+                  </h2>
+
+                  {/* Información adicional */}
+                  <div className="flex flex-wrap gap-4 text-sm text-white/80 mb-6">
+                    <div className="flex items-center gap-2">
+                      <FaUsers className="text-white" />
+                      <span>+{selectedEvent.age}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FaTshirt className="text-white" />
+                      <span>Black dress code</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FaMapMarkerAlt className="text-white" />
+                      <span>Internacional • lgbt-friendly</span>
+                    </div>
+                  </div>
+
+                  {/* Géneros musicales */}
+                  {selectedEvent.musicGenres && (
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {selectedEvent.musicGenres.split(', ').map((genre, idx) => (
+                        <span
+                          key={idx}
+                          className="text-xs bg-zinc-800 text-white px-2 py-1 rounded"
+                        >
+                          <FaMusic className="inline mr-1" size={10} />
+                          {genre}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Sección de listas */}
+                  <div className="mb-6">
+                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                      <span className="text-blue-400">■</span>
+                      Información
+                    </h3>
+                    
+                    {/* Lista de entrada gratuita para mujeres */}
+                    <div className="bg-zinc-800/50 rounded-lg p-4 mb-4">
+                      <div className="flex justify-between items-center">
+                         {/* Descripción con markdown */}
+                  <div className="prose prose-invert prose-sm max-w-none text-zinc-300 leading-relaxed">
+                    <ReactMarkdown 
+                      components={{
+                        h1: ({children}) => <h1 className="text-xl font-bold text-white mb-3">{children}</h1>,
+                        h2: ({children}) => <h2 className="text-lg font-bold text-white mb-2">{children}</h2>,
+                        h3: ({children}) => <h3 className="text-base font-bold text-white mb-2">{children}</h3>,
+                        p: ({children}) => <p className="text-zinc-300 mb-3 leading-relaxed">{children}</p>,
+                        ul: ({children}) => <ul className="list-disc list-inside text-zinc-300 mb-3">{children}</ul>,
+                        ol: ({children}) => <ol className="list-decimal list-inside text-zinc-300 mb-3">{children}</ol>,
+                        li: ({children}) => <li className="mb-1">{children}</li>,
+                        strong: ({children}) => <strong className="text-white font-semibold">{children}</strong>,
+                        em: ({children}) => <em className="text-blue-300">{children}</em>,
+                        a: ({children, href}) => <a href={href} className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">{children}</a>
+                      }}
+                    >
+                      {selectedEvent.description}
+                    </ReactMarkdown>
+                  </div>
+                     
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Botón de compra principal */}
+                  <div className="mb-6">
+                    {selectedEvent.buttons
+                      .filter(button => !button.label.toLowerCase().includes('detalles') && !button.label.toLowerCase().includes('ver'))
+                      .map((button, btnIndex) => (
+                        <button
+                          key={btnIndex}
+                          onClick={() => {
+                            if (button.onClick) {
+                              button.onClick();
+                            } else if (button.href) {
+                              window.open(button.href, '_blank', 'noopener,noreferrer');
+                            }
+                          }}
+                          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg text-base font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+                        >
+                          {button.label}
+                        </button>
+                      ))}
+                  </div>
+
+                 
                 </div>
               </div>
             </div>
