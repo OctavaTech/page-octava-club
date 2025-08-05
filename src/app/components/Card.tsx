@@ -33,14 +33,12 @@ const Card: React.FC<CardProps> = ({
   // Layout horizontal para cards dobles
   if (isDouble) {
     return (
-      <div className="bg-zinc-900/95 rounded-2xl shadow-lg text-white overflow-hidden flex min-h-[300px] transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
+      <div className="bg-zinc-900/60  rounded-2xl shadow-lg text-white overflow-hidden flex min-h-[300px] transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
         {/* Imagen a la izquierda */}
         {image && (
           <div className="w-1/2 relative overflow-hidden">
-            <img src={image} alt={title} className="w-full h-full object-cover rounded-l-2xl" />
-            {/* Gradiente separador */}
-            <div className="absolute top-0 right-0 w-4 h-full bg-gradient-to-l from-zinc-900/95 to-transparent"></div>
-          </div>
+            <img src={image} alt={title} className="w-full h-full object-cover rounded-l-2xl" />  
+             </div>
         )}
         
         {/* Contenido a la derecha */}

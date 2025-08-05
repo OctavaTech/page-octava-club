@@ -8,6 +8,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  backdrop-filter: blur(8px);
 }
 
 .bg-slide-5 {
@@ -15,6 +16,42 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  backdrop-filter: blur(8px);
+}
+
+/* Transiciones suaves entre secciones */
+section {
+  transition: all 0.8s ease-in-out;
+  position: relative;
+}
+
+/* Degradados de transición entre secciones */
+.section-gradient-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8rem;
+  background: linear-gradient(to bottom, rgb(24 24 27) 0%, transparent 100%);
+  z-index: 15;
+  pointer-events: none;
+}
+
+.section-gradient-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8rem;
+  background: linear-gradient(to top, rgb(24 24 27) 0%, transparent 100%);
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* Efecto de difuminado para fondos */
+.bg-blur-overlay {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* Animaciones personalizadas */
@@ -113,6 +150,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 * {

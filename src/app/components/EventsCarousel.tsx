@@ -141,7 +141,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
                 eventsPerView === 2 ? 'w-1/2' : 'w-1/3'
               }`}
             >
-              <div className="bg-zinc-900/95 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full max-w-sm mx-auto flex flex-col">
+              <div className="bg-zinc-900/70 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full max-w-sm mx-auto flex flex-col">
                 {/* Imagen del evento */}
                 <div className="relative h-48 sm:h-56 overflow-hidden flex-shrink-0">
                   {event.image && (
@@ -153,7 +153,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
                     />
                   )}
                   
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/70 via-zinc-900/40 via-zinc-900/20 to-transparent" style={{ mixBlendMode: 'overlay' }}></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/40 to-transparent"></div>
                   
                   {/* Badge de edad */}
                   <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
