@@ -21,10 +21,7 @@ export const transformApiEventToProcessedEvent = (apiEvent: ApiEvent): Processed
     },
     {
       label: 'Ver Detalles',
-      onClick: () => {
-        // Aquí puedes agregar lógica para mostrar más detalles
-        console.log('Ver detalles del evento:', apiEvent.name);
-      },
+      // onClick será manejado por los componentes para abrir el modal
     },
   ];
 

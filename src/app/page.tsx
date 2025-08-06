@@ -5,11 +5,11 @@ import HeroSlides from "./components/HeroSlides";
 import { useEvents } from "./hooks/useEvents";
 import EventsDisplay from "./components/EventsDisplay";
 import CorporateContactForm from "./components/CorporateContactForm";
+import CloudinaryGallery from "./components/CloudinaryGallery";
 import { motion } from "framer-motion";
 
 export default function Home() {
   const { events, loading, error, refetch, forceRefetch, clearError } = useEvents();
-  const [isGalleryHovered, setIsGalleryHovered] = useState(false);
 
   return (
     <div className="min-h-screen bg-zinc-900 backdrop-blur-sm transition-all duration-1000 ease-in-out">
@@ -138,118 +138,13 @@ export default function Home() {
             </div>
           </div>
            
-           {/* Carrusel Infinito */}
-           <div 
-             className="relative w-full py-8 overflow-hidden"
-             onMouseEnter={() => setIsGalleryHovered(true)}
-             onMouseLeave={() => setIsGalleryHovered(false)}
-           >
-             <motion.div 
-               className="flex gap-6"
-               animate={{ x: [0, -2040] }} // Ancho total de 6 tarjetas (6 * 340px)
-                               transition={{
-                  duration: isGalleryHovered ? 80 : 80, // Más lento
-                  repeat: Infinity,
-                  ease: "linear",
-                  repeatType: "loop"
-                }}
-             >
-               {/* Primera fila de imágenes */}
-               {[
-                 '1.png', '2.png', '3.png', '4.png', '5.png', '6.png',
-                 '7.png', '8.png', '9.png', '10.png', '11.png', '12.png'
-               ].map((img, i) => (
-                 <motion.div
-                   key={`first-${i}`}
-                   className="flex-shrink-0 w-80 h-96 bg-zinc-800 rounded-2xl overflow-hidden shadow-2xl cursor-pointer relative group"
-                   whileHover={{ 
-                     scale: 1.02,
-                     y: -5,
-                     rotateY: 8,
-                     transition: { duration: 0.8 }
-                   }}
-                   style={{
-                     transformStyle: 'preserve-3d',
-                     perspective: '1000px'
-                   }}
-                 >
-                   <div className="relative w-full h-full">
-                     <img 
-                       src={`/gallery/${img}`} 
-                       alt={`Galería ${i + 1}`} 
-                       className="w-full h-full object-cover transition-all duration-500 group-hover:brightness-110" 
-                     />
-                     
-                     {/* Overlay con gradiente */}
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                       <div className="absolute bottom-6 left-6 right-6">
-                         <div className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-3 rounded-xl">
-                           <div className="text-lg font-bold mb-1">Octava Club</div>
-                           <div className="text-sm opacity-80">Foto {i + 1} - Momentos únicos</div>
-                         </div>
-                       </div>
-                     </div>
-                     
-                     {/* Efecto de brillo en hover */}
-                     <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 via-purple-400/20 to-pink-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                     
-                     {/* Borde brillante */}
-                     <div className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 rounded-2xl transition-all duration-300" />
-                   </div>
-                 </motion.div>
-               ))}
-
-               {/* Segunda fila de imágenes (duplicada para loop infinito) */}
-               {[
-                 '1.png', '2.png', '3.png', '4.png', '5.png', '6.png',
-                 '7.png', '8.png', '9.png', '10.png', '11.png', '12.png'
-            ].map((img, i) => (
-                 <motion.div
-                   key={`second-${i}`}
-                   className="flex-shrink-0 w-80 h-96 bg-zinc-800 rounded-2xl overflow-hidden shadow-2xl cursor-pointer relative group"
-                   whileHover={{ 
-                     scale: 1.02,
-                     y: -5,
-                     rotateY: 8,
-                     transition: { duration: 0.3 }
-                   }}
-                   style={{
-                     transformStyle: 'preserve-3d',
-                     perspective: '1000px'
-                   }}
-                 >
-                   <div className="relative w-full h-full">
-                     <img 
-                       src={`/gallery/${img}`} 
-                       alt={`Galería ${i + 1}`} 
-                       className="w-full h-full object-cover transition-all duration-500 group-hover:brightness-110" 
-                     />
-                     
-                     {/* Overlay con gradiente */}
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                       <div className="absolute bottom-6 left-6 right-6">
-                         <div className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-3 rounded-xl">
-                           <div className="text-lg font-bold mb-1">Octava Club</div>
-                           <div className="text-sm opacity-80">Foto {i + 1} - Momentos únicos</div>
-                         </div>
-                       </div>
-                     </div>
-                     
-                     {/* Efecto de brillo en hover */}
-                     <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 via-purple-400/20 to-pink-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                     
-                     {/* Borde brillante */}
-                     <div className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 rounded-2xl transition-all duration-300" />
-              </div>
-                 </motion.div>
-               ))}
-                          </motion.div>
-           </div>
+           {/* Galería de Cloudinary */}
+           <CloudinaryGallery />
         </div>
       </section>
 
       {/* Sección 4: Reconocimientos - bg-4 */}
-    <section id="reconocimientos" className="relative min-h-[600px] py-16 flex items-center" style={{ backgroundImage: 'url(/bg-4.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <section id="reconocimientos" className="relative min-h-[500px] py-10 flex items-center" style={{ backgroundImage: 'url(/bg-4.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
       {/* Degradado superior para transición suave */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-zinc-900 to-transparent z-15"></div>
       <div className="absolute inset-0 bg-blue-900/70 backdrop-blur-sm z-0"></div>
