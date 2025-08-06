@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "./components/Navbar";
 import HeroSlides from "./components/HeroSlides";
 import { useEvents } from "./hooks/useEvents";
@@ -12,7 +12,7 @@ export default function Home() {
   const { events, loading, error, refetch, forceRefetch, clearError } = useEvents();
 
   return (
-    <div className="min-h-screen bg-zinc-900 backdrop-blur-sm transition-all duration-1000 ease-in-out">
+    <div className="min-h-screen bg-zinc-900">
       <Navbar />
       
       {/* Sección 1: Hero - Historia épica de resurrección */}
@@ -20,8 +20,6 @@ export default function Home() {
         {/* Fondo animado con slide-4 y slide-5 */}
         <HeroSlides />
         <div className="absolute inset-0 bg-black/60 z-5"></div>
-        {/* Degradado inferior para transición suave */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-900 to-transparent z-10"></div>
         <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
           {/* Título principal con efecto dramático */}
           <div className="mb-8">
@@ -71,14 +69,9 @@ export default function Home() {
 
       {/* Sección 2: Eventos Próximos - bg-2 */}
       <section id="eventos" className="relative min-h-screen py-20">
-        {/* Degradado superior para transición suave */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-zinc-900 to-transparent z-15"></div>
         <div className="absolute inset-0 z-0">
-          <img src="/bg-2.jpg" alt="Events Background" className="w-full h-full object-cover brightness-30 backdrop-blur-sm" />
+          <img src="/bg-2.jpg" alt="Events Background" className="w-full h-full object-cover brightness-30" />
         </div>
-        <div className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm z-5"></div>
-        {/* Degradado inferior para transición suave */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-900 to-transparent z-15"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4">
           {/* Display de eventos con opciones de visualización */}
           <EventsDisplay events={events} loading={loading} />
@@ -144,7 +137,7 @@ export default function Home() {
       </section>
 
       {/* Sección 4: Reconocimientos - bg-4 */}
-    <section id="reconocimientos" className="relative min-h-[500px] py-10 flex items-center" style={{ backgroundImage: 'url(/bg-4.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <section id="reconocimientos" className="relative min-h-[500px] py-10 flex items-center" style={{ backgroundImage: 'url(/bg-4.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
       {/* Degradado superior para transición suave */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-zinc-900 to-transparent z-15"></div>
       <div className="absolute inset-0 bg-blue-900/70 backdrop-blur-sm z-0"></div>
@@ -361,14 +354,9 @@ export default function Home() {
 
       {/* Sección 5: Eventos Corporativos - bg-5 */}
       <section id="eventos-corporativos" className="relative min-h-screen py-20">
-        {/* Degradado superior para transición suave */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-zinc-900 to-transparent z-15"></div>
         <div className="absolute inset-0 z-0">
-          <img src="/bg-5.jpg" alt="Corporate Background" className="w-full h-full object-cover brightness-30 backdrop-blur-sm" />
+          <img src="/bg-5.jpg" alt="Corporate Background" className="w-full h-full object-cover brightness-30" />
         </div>
-        <div className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm z-5"></div>
-        {/* Degradado inferior para transición suave */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-900 to-transparent z-15"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -387,23 +375,15 @@ export default function Home() {
       </section>
       
       {/* Footer personalizado */}
-      <footer id="contacto" className="relative pt-12 pb-6 px-4 mt-12 overflow-hidden">
-        {/* Fondo con slide-4.jpg */}
-        <div className="absolute inset-0 z-0">
-          <img src="/Slide-4.jpg" alt="Footer Background" className="w-full h-full object-cover brightness-30 backdrop-blur-sm" />
-        </div>
-        {/* Overlay oscuro para legibilidad */}
-        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-5"></div>
-        {/* Degradado superior para transición suave */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-zinc-900 to-transparent z-10"></div>
-        <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
+      <footer id="contacto" className="bg-gradient-to-b from-black via-[#0a0a2a] to-[#0a0a2a] pt-12 pb-6 px-4 mt-12">
+        <div className="max-w-5xl mx-auto flex flex-col items-center">
           <img src="/Logo-footer.svg" alt="Logo Octava" className="w-24 h-24 mb-4" />
           <hr className="w-full border-t border-zinc-400/30 my-6" />
           <div className="flex gap-6 mb-6">
-            <a href="https://www.instagram.com/octavaclub" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-instagram"></i></a>
-            <a href="https://www.facebook.com/cluboctava" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-facebook-f"></i></a>
-            <a href="https://open.spotify.com/user/9w129wyp9f9j9ozpcw4l31rbb?si=CEXg_dN9SNar1Ru1DEbMpQ&nd=1&dlsi=c14e1a7f68b44cca" target="_blank" rel="noopener noreferrer" aria-label="Spotify" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-spotify"></i></a>
-            <a href="https://www.tiktok.com/@octavaclub" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-tiktok"></i></a>
+            <a href="https://www.instagram.com/octavaclub" aria-label="Instagram" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/cluboctava" aria-label="Facebook" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-facebook-f"></i></a>
+            <a href="https://open.spotify.com/user/9w129wyp9f9j9ozpcw4l31rbb?si=CEXg_dN9SNar1Ru1DEbMpQ&nd=1&dlsi=c14e1a7f68b44cca" aria-label="Spotify" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-spotify"></i></a>
+            <a href="https://www.tiktok.com/@octavaclub" aria-label="TikTok" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-tiktok"></i></a>
           </div>
           <div className="text-center text-white/80 mb-2 font-semibold tracking-wide">CONTACTO</div>
           <div className="flex flex-col md:flex-row gap-2 md:gap-8 text-center text-zinc-200 text-sm mb-4">

@@ -180,7 +180,7 @@ const EventsBanner: React.FC<EventsBannerProps> = ({ events, loading }) => {
                    </div>
                  </div>
 
-                                 {/* Overlay hover - solo en la imagen */}
+                {/* Overlay hover - solo en la imagen */}
                  <div 
                    className="absolute top-0 left-0 right-0 h-32 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
                    onClick={() => handleOpenModal(event)}

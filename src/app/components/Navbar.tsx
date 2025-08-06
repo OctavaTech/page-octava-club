@@ -71,7 +71,7 @@ const Navbar: React.FC = () => {
             <a href="#inicio" className={getLinkClasses('inicio')}>INICIO</a>
           </li>
           <li>
-            <a href="#eventos" className={getLinkClasses('eventos')}>EVENTOS NOCTURNOS</a>
+            <a href="#eventos" className={getLinkClasses('eventos')}>EVENTOS</a>
           </li>
           <li>
             <a href="#galeria" className={getLinkClasses('galeria')}>GALERIA</a>
@@ -122,7 +122,7 @@ const Navbar: React.FC = () => {
             INICIO
           </a>
           <a href="#eventos" onClick={closeMenu} className={getLinkClasses('eventos', true)}>
-            EVENTOS NOCTURNOS
+            EVENTOS
           </a>
           <a href="#galeria" onClick={closeMenu} className={getLinkClasses('galeria', true)}>
             GALERIA
