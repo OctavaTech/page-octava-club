@@ -7,6 +7,8 @@ import EventsDisplay from "./components/EventsDisplay";
 import CorporateContactForm from "./components/CorporateContactForm";
 import CloudinaryGallery from "./components/CloudinaryGallery";
 import { motion } from "framer-motion";
+import Reveal from "./components/Reveal";
+import Footer from "./components/Footer";
 
 export default function Home() {
   const { events, loading, error, refetch, forceRefetch, clearError } = useEvents();
@@ -23,16 +25,21 @@ export default function Home() {
         <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
           {/* Título principal con efecto dramático */}
           <div className="mb-8">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-4 drop-shadow-2xl animate-fade-in-up">
-              <span className="text-white">DEL FUEGO</span>
-            </h1>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-4 drop-shadow-2xl animate-fade-in-up-delay">
-              <span className="text-white">A LA GLORIA</span>
-            </h1>
+            <Reveal direction="up">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-4 drop-shadow-2xl">
+                <span className="text-white">DEL FUEGO</span>
+              </h1>
+            </Reveal>
+            <Reveal direction="up" delay={0.1}>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-4 drop-shadow-2xl">
+                <span className="text-white">A LA GLORIA</span>
+              </h1>
+            </Reveal>
           </div>
 
           {/* Historia épica */}
-          <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-8 animate-fade-in-up-delay-2">
+          <Reveal direction="up">
+          <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-8">
             <p className="text-lg md:text-xl text-zinc-200 mb-4 leading-relaxed text-justify">
               <span className="text-white font-semibold">2019:</span> Las llamas devoraron nuestros sueños. 
               Octava Club se convirtió en cenizas, pero no nuestro espíritu.
@@ -46,9 +53,11 @@ export default function Home() {
               <span className="text-white font-bold"> Top 100 mundial en DJ Mag</span> por 6 años consecutivos.
             </p>
           </div>
+          </Reveal>
 
           {/* Llamada a la acción */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up-delay-3">
+          <Reveal direction="up" delay={0.1}>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="/about" className="bg-gradient-to-r from-white to-gray-200 text-black rounded-full px-8 py-4 font-bold text-lg hover:from-gray-200 hover:to-white transition-all duration-300 hover:scale-105 shadow-2xl">
               CONOCE NUESTRA HISTORIA
             </a>
@@ -56,14 +65,17 @@ export default function Home() {
               VIVE LA EXPERIENCIA
             </a>
           </div>
+          </Reveal>
 
           {/* Badge de reconocimiento */}
-          <div className="mt-8 animate-fade-in-up-delay-4">
+          <Reveal direction="up" delay={0.2}>
+          <div className="mt-8">
             <a href="#reconocimientos" className="inline-flex items-center gap-2 bg-gradient-to-r from-gold-400 to-yellow-500 text-black px-4 py-2 rounded-full font-bold text-sm hover:from-yellow-400 hover:to-gold-500 transition-all duration-300 hover:scale-105 cursor-pointer">
               <span>🏆</span>
               <span>TOP 100 MUNDIAL DJ MAG 2024</span>
             </a>
           </div>
+          </Reveal>
         </div>
       </section>
 
@@ -73,8 +85,10 @@ export default function Home() {
           <img src="/bg-2.jpg" alt="Events Background" className="w-full h-full object-cover brightness-30" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4">
-          {/* Display de eventos con opciones de visualización */}
-          <EventsDisplay events={events} loading={loading} />
+          <Reveal direction="up">
+            {/* Display de eventos con opciones de visualización */}
+            <EventsDisplay events={events} loading={loading} />
+          </Reveal>
           
           {/* Estado de error */}
           {error && (
@@ -111,28 +125,34 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-900 to-transparent z-15"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-6">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">Galería del Club</h2>
-              <p className="text-lg text-zinc-300 mb-1">Vive los mejores momentos capturados en nuestro club.</p>
-              <span className="text-zinc-400 text-sm">Etiqueta a <span className="text-blue-400 font-semibold">@octavaclub</span> para aparecer destacado</span>
-            </div>
+            <Reveal direction="left">
+              <div>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">Galería del Club</h2>
+                <p className="text-lg text-zinc-300 mb-1">Vive los mejores momentos capturados en nuestro club.</p>
+                <span className="text-zinc-400 text-sm">Etiqueta a <span className="text-blue-400 font-semibold">@octavaclub</span> para aparecer destacado</span>
+              </div>
+            </Reveal>
             
             {/* Botón de Instagram en la parte superior derecha */}
-            <div className="flex items-center gap-4">
-              <a 
-                href="https://www.instagram.com/octavaclub/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105"
-              >
-                <span className="text-lg">📸</span>
-                <span>SÍGUENOS EN INSTAGRAM</span>
-              </a>
-            </div>
+            <Reveal direction="right" delay={0.1}>
+              <div className="flex items-center gap-4">
+                <a 
+                  href="https://www.instagram.com/octavaclub/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105"
+                >
+                  <span className="text-lg">📸</span>
+                  <span>SÍGUENOS EN INSTAGRAM</span>
+                </a>
+              </div>
+            </Reveal>
           </div>
            
            {/* Galería de Cloudinary */}
-           <CloudinaryGallery />
+           <Reveal direction="up">
+             <CloudinaryGallery />
+           </Reveal>
         </div>
       </section>
 
@@ -144,6 +164,7 @@ export default function Home() {
       {/* Degradado inferior para transición suave */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-900 to-transparent z-15"></div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 w-full">
+          <Reveal direction="up">
           <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-4 mb-4">
                 <motion.div
@@ -170,8 +191,10 @@ export default function Home() {
                 en el prestigioso ranking de <span className="text-white font-bold">DJ MAG</span>
               </p>
             </div>
+          </Reveal>
 
           {/* Carrusel infinito de reconocimientos */}
+          <Reveal direction="up">
           <div className="relative overflow-hidden pt-4 pb-4">
                         {/* Carrusel infinito */}
             <div className="relative">
@@ -347,6 +370,7 @@ export default function Home() {
               </motion.div>
           </div>
           </div>
+          </Reveal>
 
     
         </div>
@@ -358,44 +382,29 @@ export default function Home() {
           <img src="/bg-5.jpg" alt="Corporate Background" className="w-full h-full object-cover brightness-30" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Eventos Corporativos
-            </h2>
-            <p className="text-xl text-zinc-300 max-w-3xl mx-auto">
-              Transforma tu evento empresarial en una experiencia inolvidable. 
-              Nuestras instalaciones exclusivas y servicios personalizados están 
-              diseñados para hacer de tu evento corporativo un éxito rotundo.
-            </p>
-          </div>
+          <Reveal direction="up">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Eventos Corporativos
+              </h2>
+              <p className="text-xl text-zinc-300 max-w-3xl mx-auto">
+                Transforma tu evento empresarial en una experiencia inolvidable. 
+                Nuestras instalaciones exclusivas y servicios personalizados están 
+                diseñados para hacer de tu evento corporativo un éxito rotundo.
+              </p>
+            </div>
+          </Reveal>
 
           {/* Formulario de contacto */}
-          <CorporateContactForm />
+          <Reveal direction="up" delay={0.1}>
+            <CorporateContactForm />
+          </Reveal>
         </div>
       </section>
       
       {/* Footer personalizado */}
-      <footer id="contacto" className="bg-gradient-to-b from-black via-[#0a0a2a] to-[#0a0a2a] pt-12 pb-6 px-4 mt-12">
-        <div className="max-w-5xl mx-auto flex flex-col items-center">
-          <img src="/Logo-footer.svg" alt="Logo Octava" className="w-24 h-24 mb-4" />
-          <hr className="w-full border-t border-zinc-400/30 my-6" />
-          <div className="flex gap-6 mb-6">
-            <a href="https://www.instagram.com/octavaclub" aria-label="Instagram" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-instagram"></i></a>
-            <a href="https://www.facebook.com/cluboctava" aria-label="Facebook" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-facebook-f"></i></a>
-            <a href="https://open.spotify.com/user/9w129wyp9f9j9ozpcw4l31rbb?si=CEXg_dN9SNar1Ru1DEbMpQ&nd=1&dlsi=c14e1a7f68b44cca" aria-label="Spotify" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-spotify"></i></a>
-            <a href="https://www.tiktok.com/@octavaclub" aria-label="TikTok" className="text-white text-2xl hover:text-blue-400 transition"><i className="fab fa-tiktok"></i></a>
-          </div>
-          <div className="text-center text-white/80 mb-2 font-semibold tracking-wide">CONTACTO</div>
-          <div className="flex flex-col md:flex-row gap-2 md:gap-8 text-center text-zinc-200 text-sm mb-4">
-            <span>Ubicación:Cra. 8 #63-41. Bogotá, Colombia</span>
-            <span>Teléfono:+57 315 6607465</span>
-            <span>Correo:info@octavaclub.com</span>
-          </div>
-          <div className="text-xs text-zinc-400 mt-2">
-            ©2025 OCTAVA • <a href="#" className="underline hover:text-white transition">WEBSITE TERMS OF USE</a> • <a href="#" className="underline hover:text-white transition">PRIVACY POLICY</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
+ 
     </div>
   );
 }

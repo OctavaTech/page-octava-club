@@ -105,13 +105,13 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
           <div className="relative bg-zinc-900 rounded-2xl max-w-xl w-full shadow-2xl min-h-10 max-h-[90vh] flex flex-col">
             {/* Header del modal */}
                  <div className="relative h-40 md:h-40 overflow-hidden rounded-t-2xl">
-          {selectedEvent.image && (
-            <img
-              src={selectedEvent.image}
-              alt={selectedEvent.title}
-              className="w-full h-full object-cover"
-            />
-          )}
+                {selectedEvent.image && (
+                  <img
+                    src={selectedEvent.image}
+                    alt={selectedEvent.title}
+                    className="w-full h-full object-cover"
+                  />
+                )}
           <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/60 to-transparent" />
           
           {/* Botón cerrar */}
