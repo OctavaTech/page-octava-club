@@ -1,6 +1,6 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { ProcessedEvent } from '../types/Event';
 import { FaChevronLeft, FaChevronRight, FaPlay, FaPause, FaCalendar, FaMapMarkerAlt, FaMusic, FaTshirt, FaUsers } from 'react-icons/fa';
 import { useModal } from '../contexts/ModalContext';
@@ -13,17 +13,12 @@ interface EventsCarouselProps {
 const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [visibleEvents, setVisibleEvents] = useState<ProcessedEvent[]>([]);
   const [eventsPerView, setEventsPerView] = useState(3);
   const [direction, setDirection] = useState<1 | -1>(1);
+  const [virtualIndex, setVirtualIndex] = useState(0);
+  const [isInstant, setIsInstant] = useState(false);
   const { openEventModal } = useModal();
 
-  // Variants para transición de páginas con dirección
-  const slideVariants = {
-    enter: (dir: number) => ({ x: dir * 40, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (dir: number) => ({ x: dir * -40, opacity: 0 })
-  } as const;
 
   // Detectar el número de eventos por vista basado en el tamaño de pantalla
   useEffect(() => {
@@ -42,14 +37,33 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
     return () => window.removeEventListener('resize', updateEventsPerView);
   }, []);
 
-  // Calcular eventos visibles basados en el índice actual
+  // Lista duplicada para loop infinito
+  const duplicatedEvents = useMemo(() => {
+    if (!events || events.length === 0) return [] as ProcessedEvent[];
+    return [...events, ...events, ...events];
+  }, [events]);
+
+  // Inicializar índice virtual en el segmento central
   useEffect(() => {
     if (events.length > 0) {
-      const startIndex = currentIndex;
-      const endIndex = Math.min(startIndex + eventsPerView, events.length);
-      setVisibleEvents(events.slice(startIndex, endIndex));
+      setVirtualIndex(events.length + currentIndex);
     }
-  }, [currentIndex, events, eventsPerView]);
+  }, [events.length]);
+
+  // Mantener el índice virtual en el bloque central para un loop continuo
+  useEffect(() => {
+    const total = events.length;
+    if (total === 0) return;
+    if (virtualIndex >= total * 2) {
+      setIsInstant(true);
+      setVirtualIndex((prev) => prev - total);
+      requestAnimationFrame(() => setIsInstant(false));
+    } else if (virtualIndex < total) {
+      setIsInstant(true);
+      setVirtualIndex((prev) => prev + total);
+      requestAnimationFrame(() => setIsInstant(false));
+    }
+  }, [virtualIndex, events.length]);
 
   // Auto-play
   useEffect(() => {
@@ -58,6 +72,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
     const interval = setInterval(() => {
       setDirection(1);
       setCurrentIndex((prev) => (prev + 1) % Math.max(1, events.length - eventsPerView + 1));
+      setVirtualIndex((prev) => prev + 1);
     }, 9000); // Cambiar cada 9 segundos
 
     return () => clearInterval(interval);
@@ -72,6 +87,7 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
       }
       return prev + 1;
     });
+    setVirtualIndex((prev) => prev + 1);
   };
 
   const prevSlide = () => {
@@ -79,10 +95,13 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
     setCurrentIndex((prev) => 
       prev === 0 ? Math.max(0, events.length - eventsPerView) : prev - 1
     );
+    setVirtualIndex((prev) => prev - 1);
   };
 
   const goToSlide = (index: number) => {
-    setDirection(index > currentIndex ? 1 : -1);
+    const dir: 1 | -1 = index > currentIndex ? 1 : -1;
+    setDirection(dir);
+    setVirtualIndex((prev) => prev + (index - currentIndex));
     setCurrentIndex(index);
   };
 
@@ -147,117 +166,108 @@ const EventsCarousel: React.FC<EventsCarouselProps> = ({ events, loading }) => {
         </div>
       </div>
 
-      {/* Carrusel principal */}
-      <div className="relative overflow-hidden rounded-2xl">
-        <AnimatePresence initial={false} custom={direction}>
-          <motion.div
-            key={currentIndex}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.45, ease: 'easeOut' }}
-            className="flex"
-          >
-            {visibleEvents.map((event, index) => (
-              <motion.div
-                key={event.id}
-                className={`${
-                  eventsPerView === 1 ? 'w-full' : 
-                  eventsPerView === 2 ? 'w-1/2' : 'w-1/3'
-                } flex-shrink-0 px-4`}
-                initial={{ y: 12, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.35, delay: index * 0.05, ease: 'easeOut' }}
-              >
-                <div className="bg-zinc-900/70 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full max-w-sm mx-auto flex flex-col">
-                  {/* Imagen del evento */}
-                  <div className="relative h-48 sm:h-56 overflow-hidden rounded-t-xl">
-                    {event.image && (
-                      <img
-                        src={event.image}
-                        alt={event.title}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
+      {/* Carrusel principal - infinito */}
+      <div className="relative rounded-2xl">
+        <motion.div
+          className="flex"
+          animate={{ x: `-${virtualIndex * (100 / eventsPerView)}%` }}
+          transition={isInstant ? { duration: 0 } : { type: 'spring', stiffness: 260, damping: 28, mass: 0.9 }}
+          style={{ willChange: 'transform' }}
+        >
+          {duplicatedEvents.map((event, index) => (
+            <div
+              key={`${event.id}-${index}`}
+              className={`${
+                eventsPerView === 1 ? 'w-full' : 
+                eventsPerView === 2 ? 'w-1/2' : 'w-1/3'
+              } flex-shrink-0 px-4`}
+            >
+              <div className="bg-zinc-900/70 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full max-w-sm mx-auto flex flex-col">
+                {/* Imagen del evento */}
+                <div className="relative h-48 sm:h-56 overflow-hidden rounded-t-xl">
+                  {event.image && (
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  
+                  {/* Badge de edad */}
+                  <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                    +{event.age}
+                  </div>
+                  
+                </div>
+
+                {/* Contenido */}
+                <div className="p-4 sm:p-6 flex flex-col flex-grow">
+                  <div className="flex-grow">
+                    <h4 className="text-base sm:text-lg font-bold text-white mb-2 line-clamp-2 min-h-[3rem]">
+                      {event.title}
+                    </h4>
                     
-                    {/* Badge de edad */}
-                    <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
-                      +{event.age}
+                    <p className="text-xs sm:text-sm text-zinc-300 mb-3 line-clamp-2 min-h-[2.5rem]">
+                      {event.description}
+                    </p>
+
+                    {/* Fecha y ubicación */}
+                    <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400 mb-3">
+                      <span className="flex items-center gap-1">
+                        <img src="/icons/icon-calendar.svg" alt="calendar" className="w-3 h-3 sm:w-4 sm:h-4" />
+                        {event.date}
+                      </span>
                     </div>
-                    
+
+                    <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400 mb-4">
+                      <span className="flex items-center gap-1">
+                        <img src="/icons/icon-location.svg" alt="location" className="w-3 h-3 sm:w-4 sm:h-4" />
+                        {event.address}
+                      </span>
+                    </div>
+
+                    {/* Géneros musicales */}
+                    {event.musicGenres && (
+                      <div className="mb-4">
+                        <div className="flex flex-wrap gap-1">
+                          {event.musicGenres.split(', ').slice(0, 2).map((genre, idx) => (
+                            <span
+                              key={idx}
+                              className="text-xs bg-blue-600/20 text-blue-300 px-2 py-1 rounded-full"
+                            >
+                              {genre}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Contenido */}
-                  <div className="p-4 sm:p-6 flex flex-col flex-grow">
-                    <div className="flex-grow">
-                      <h4 className="text-base sm:text-lg font-bold text-white mb-2 line-clamp-2 min-h-[3rem]">
-                        {event.title}
-                      </h4>
-                      
-                      <p className="text-xs sm:text-sm text-zinc-300 mb-3 line-clamp-2 min-h-[2.5rem]">
-                        {event.description}
-                      </p>
-
-                      {/* Fecha y ubicación */}
-                      <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400 mb-3">
-                        <span className="flex items-center gap-1">
-                          <img src="/icons/icon-calendar.svg" alt="calendar" className="w-3 h-3 sm:w-4 sm:h-4" />
-                          {event.date}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400 mb-4">
-                        <span className="flex items-center gap-1">
-                          <img src="/icons/icon-location.svg" alt="location" className="w-3 h-3 sm:w-4 sm:h-4" />
-                          {event.address}
-                        </span>
-                      </div>
-
-                      {/* Géneros musicales */}
-                      {event.musicGenres && (
-                        <div className="mb-4">
-                          <div className="flex flex-wrap gap-1">
-                            {event.musicGenres.split(', ').slice(0, 2).map((genre, idx) => (
-                              <span
-                                key={idx}
-                                className="text-xs bg-blue-600/20 text-blue-300 px-2 py-1 rounded-full"
-                              >
-                                {genre}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Botones - siempre al fondo */}
-                    <div className="flex gap-2 mt-auto pt-4">
-                      {event.buttons.map((button, btnIndex) => (
-                        <button
-                          key={btnIndex}
-                          onClick={() => {
-                            if (button.label.toLowerCase().includes('detalles') || button.label.toLowerCase().includes('ver')) {
-                              handleOpenModal(event);
-                            } else if (button.onClick) {
-                              button.onClick();
-                            } else if (button.href) {
-                              window.open(button.href, '_blank', 'noopener,noreferrer');
-                            }
-                          }}
-                          className="flex-1 border-2 border-blue-500 text-white py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-semibold hover:border-blue-500 hover:bg-blue-500 hover:text-white transition-colors"
-                        >
-                          {button.label}
-                        </button>
-                      ))}
-                    </div>
+                  {/* Botones - siempre al fondo */}
+                  <div className="flex gap-2 mt-auto pt-4">
+                    {event.buttons.map((button, btnIndex) => (
+                      <button
+                        key={btnIndex}
+                        onClick={() => {
+                          if (button.label.toLowerCase().includes('detalles') || button.label.toLowerCase().includes('ver')) {
+                            handleOpenModal(event);
+                          } else if (button.onClick) {
+                            button.onClick();
+                          } else if (button.href) {
+                            window.open(button.href, '_blank', 'noopener,noreferrer');
+                          }
+                        }}
+                        className="flex-1 border-2 border-blue-500 text-white py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-semibold hover:border-blue-500 hover:bg-blue-500 hover:text-white transition-colors"
+                      >
+                        {button.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+              </div>
+            </div>
+          ))}
+        </motion.div>
       </div>
 
              {/* Indicadores de puntos */}
